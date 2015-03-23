@@ -22,5 +22,5 @@ Issues of current situations
 What's the problems
 -----------------------------------
 JavaFX is used in the program.  
-Graphics of JavaFX is another thread i.e. create new thread when create new window.  
-So if There is update of action(e.g.button), the thread don't communicate notice to special transmit thread.  
+Graphics of JavaFX works another thread i.e. create new thread when create new window.  
+So even if There is update of action(e.g.button), the thread can't communicate notice to special transmit thread.  
