@@ -16,9 +16,6 @@ import konishi.java.socketconnection.model.StoreData;
  */
 public class TransmitServer extends TransmitBase implements Runnable {
 	private ServerSocket server = null;
-	private Thread thread = null;
-	private boolean connecting = false;
-	private boolean clientConnect = false;
 	
 	public TransmitServer() throws Exception {
 		super();
@@ -49,33 +46,6 @@ public class TransmitServer extends TransmitBase implements Runnable {
 		
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
-	}
-	
-	/**
-	 * 接続中フラグを立て、スレッドによりクライアントとの通信を開始します。
-	 */
-	public boolean setupServer() {
-		if (connecting)	return true;
-		connecting = true;
-		thread.start();
-		
-		return connecting;
-	}
-	
-	/**
-	 * クライアントの接続状況を設定します。
-	 * @param _connect 接続フラグ
-	 */
-	public void setConnect(boolean _connect) {
-		clientConnect = _connect;
-	}
-	
-	/**
-	 * クライアントの接続状況を取得します。
-	 * @return 接続フラグ
-	 */
-	public boolean getConnect() {
-		return clientConnect;
 	}
 	
 	@Override

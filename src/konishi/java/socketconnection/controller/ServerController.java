@@ -1,12 +1,8 @@
 package konishi.java.socketconnection.controller;
 
-import java.nio.channels.NotYetBoundException;
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -63,22 +59,6 @@ public class ServerController extends ControllerBase implements Runnable {
 	public void init() throws Exception {
 		server = new TransmitServer();
 		new Thread(this).start();
-//		server.setupServer();
-		
-		/*
-		Task<Void> task = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				while(true) {
-					ArrayList<JsonType> list = server.readFile(MAP_FILE);
-					convertCoordinates(list);
-					System.out.print("Task");
-				}
-			}
-		};
-		Executor executor = Executors.newSingleThreadExecutor();
-		executor.execute(task);
-		*/
 		
 		setRootMap(root_map);
 		server.clearFile(MAP_FILE);
