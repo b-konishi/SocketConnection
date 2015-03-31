@@ -56,10 +56,10 @@ public class ServerController extends ControllerBase implements Runnable {
 	
 	private TransmitServer server = null;
 	
+	// #initializeとすると初期値設定メソッドのオーバーライドだと思われてしまうことに注意
 	public void init() throws Exception {
 		server = new TransmitServer();
-		new Thread(this).start();
-		
+		stackTrace();
 		setRootMap(root_map);
 		server.clearFile(MAP_FILE);
 	}
@@ -68,11 +68,8 @@ public class ServerController extends ControllerBase implements Runnable {
 	public void run() {
 		
 		while (true) {
-			while (!server.isConnected()) {
-				System.out.println("Not yet.");
-			}
-			
 			try {
+				stackTrace();
 				ArrayList<JsonType> list = server.readFile(MAP_FILE);
 				
 				Platform.runLater(new Runnable() {
@@ -82,8 +79,7 @@ public class ServerController extends ControllerBase implements Runnable {
 					}
 				});
 			} catch(Exception e) {
-				System.out.println("再接続してください");
-				e.printStackTrace();
+				errorStackTrace(e);	
 				continue;
 			}
 		}

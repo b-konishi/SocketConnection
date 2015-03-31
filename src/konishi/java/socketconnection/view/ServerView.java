@@ -18,7 +18,7 @@ public class ServerView extends Application {
 	public void start(Stage _stage) throws Exception {
 		stage = _stage;
 		stage.setTitle("Server Application");
-		stage.setFullScreen(true);
+//		stage.setFullScreen(true);
 		
 		root = FXMLLoader.load(getClass().getResource("server.fxml"));
 

@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 
 import konishi.java.socketconnection.base.TransmitBase;
+import konishi.java.socketconnection.controller.ServerController;
+import konishi.java.socketconnection.controller.ThreadManager;
 import konishi.java.socketconnection.model.StoreData;
 
 /**
@@ -16,10 +18,12 @@ import konishi.java.socketconnection.model.StoreData;
  */
 public class TransmitServer extends TransmitBase implements Runnable {
 	private ServerSocket server = null;
+	private ServerController serverCtrl = null;
 	
 	public TransmitServer() throws Exception {
 		super();
 		server = new ServerSocket(StoreData.PORT);
+		serverCtrl = new ServerController();
 		
 		new Thread(this).start();
 	}
@@ -36,13 +40,16 @@ public class TransmitServer extends TransmitBase implements Runnable {
 				System.out.println("Accepted!!");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			errorStackTrace(e);
 		}
 	}
 	
-	public void setup() throws IOException {
+	public void setup() throws Exception {
 		
 		socket = server.accept();
+		
+		new Thread(serverCtrl).start();
+		ThreadManager manager = new ThreadManager(serverCtrl);
 		
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
@@ -53,6 +60,6 @@ public class TransmitServer extends TransmitBase implements Runnable {
 		super.closeTransport();
 		
 		server.close();
-		System.out.println("server.close()");
+		stackTrace();
 	}
 }

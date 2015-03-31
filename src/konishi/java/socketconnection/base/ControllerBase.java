@@ -19,7 +19,7 @@ import konishi.java.socketconnection.type.JsonType;
  * @version 1.0.0
  * @author konishi
  */
-abstract public class ControllerBase {
+abstract public class ControllerBase extends TotalBase {
 	
 	@FXML public AnchorPane root_map;
 	

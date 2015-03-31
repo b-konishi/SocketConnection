@@ -71,7 +71,7 @@ public class ClientController extends ControllerBase implements Runnable {
 	public void run() {
 		while (client.isConnected()) {
 			try {
-				System.out.println("Before readFile");
+				stackTrace();
 				ArrayList<JsonType> list = client.readFile(MAP_FILE);
 				
 				// JavaFXとは違うスレッドで動いているため、処理が終わってから実行する。
@@ -82,7 +82,7 @@ public class ClientController extends ControllerBase implements Runnable {
 					}
 				});
 			} catch(Exception e) {
-				e.printStackTrace();
+				errorStackTrace(e);
 				return;
 			}
 		}
