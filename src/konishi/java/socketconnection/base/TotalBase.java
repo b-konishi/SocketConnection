@@ -10,11 +10,11 @@ public class TotalBase {
 	 * @param str
 	 * @return
 	 */
-	public String[] stringSeparator(String str, int num) {
+	public String[] stringSeparator(String str, int num, String key) {
 		
 		String[] data = new String[num];
 
-        StringTokenizer st = new StringTokenizer(str , ":");
+        StringTokenizer st = new StringTokenizer(str , key);
 
         while (st.hasMoreTokens()) {
             data[data.length - st.countTokens()] = st.nextToken();

@@ -13,6 +13,30 @@
    <children>
       <TabPane fx:id="root_tab" layoutX="22.0" layoutY="8.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <tabs>
+          <Tab text="Map">
+            <content>
+              <AnchorPane>
+                     <children>
+                        <VBox alignment="CENTER" layoutX="769.0" layoutY="11.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Button fx:id="robot_map_button" layoutX="820.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ロボット" />
+                              <Button fx:id="rubble_map_button" layoutX="828.0" layoutY="239.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ガレキ" />
+                              <Button fx:id="doll_map_button" layoutX="833.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ダミヤン" />
+                              <Button fx:id="dust_map_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="0.0" prefWidth="100.0" text="ゴミ箱" />
+                           </children>
+                        </VBox>
+                        <AnchorPane fx:id="root_map" layoutX="119.0" layoutY="11.0" onMouseClicked="#handleMouseAction">
+                           <children>
+                              <ImageView fx:id="map_image" fitHeight="600.0" fitWidth="600.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../image/map.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
           <Tab text="各号機情報">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="1200.0">
@@ -203,29 +227,6 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Map">
-            <content>
-              <AnchorPane>
-                     <children>
-                        <VBox alignment="CENTER" layoutX="769.0" layoutY="11.0" spacing="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Button fx:id="robot_map_button" layoutX="820.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ロボット" />
-                              <Button fx:id="rubble_map_button" layoutX="828.0" layoutY="239.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ガレキ" />
-                              <Button fx:id="doll_map_button" layoutX="833.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ダミヤン" />
-                           </children>
-                        </VBox>
-                        <AnchorPane fx:id="root_map" layoutX="119.0" layoutY="11.0" onMouseClicked="#handleMouseAction">
-                           <children>
-                              <ImageView fx:id="map_image" fitHeight="600.0" fitWidth="600.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../image/map.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
-                     </children></AnchorPane>
-            </content>
-          </Tab>
         </tabs>
       </TabPane>
       <HBox alignment="CENTER" layoutX="21.0" layoutY="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
@@ -233,8 +234,8 @@
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="78.0" layoutY="39.0" prefHeight="15.0" prefWidth="131.0" text="サーバー" />
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="231.0">
                <children>
-                  <Label layoutX="184.0" layoutY="40.0" text="This PC: " />
-                  <Label layoutX="249.0" layoutY="42.0" text="192.168.0.200" />
+                  <Label layoutX="184.0" layoutY="40.0" text="PORT: " />
+                  <Label fx:id="ip_adress" layoutX="249.0" layoutY="42.0" text="未設定" />
                </children>
             </HBox>
             <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="255.0" />

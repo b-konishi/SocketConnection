@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import konishi.java.socketconnection.base.ControllerBase;
@@ -49,14 +50,15 @@ public class ServerController extends ControllerBase {
 	@FXML public Button robot_map_button;
 	@FXML public Button rubble_map_button;
 	@FXML public Button doll_map_button;
+	@FXML public Button dust_map_button;
+	
+	@FXML public Label ip_adress;
 	
 	private static final String MAP_FILE = StoreData.SERVER_MAP_FILE;
 	
 	private TransmitServer server = null;
 	private AnimationTimer timer = null;
-	
-	private int[] coordinate = new int[3];
-			
+				
 	// #initializeとすると初期値設定メソッドのオーバーライドだと思われてしまうことに注意
 	public void init() throws Exception {
 		server = new TransmitServer();
@@ -64,20 +66,12 @@ public class ServerController extends ControllerBase {
 		setRootMap(root_map);
 		server.clearFile(MAP_FILE);
 		
+		ip_adress.setText(server.getAdress());
+		
 		timer = new AnimationTimer() {	
 			@Override
 			public void handle(long now) {
-				try {
-					if (ReceiveModel.isUpdated) {
-						coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length));
-						stackTrace(coordinate[0] + " " + coordinate[1] + " " + coordinate[2]);	
-						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
-						ReceiveModel.isUpdated = false;
-					}
-
-				} catch (Exception e) {
-//					errorStackTrace(e);
-				}
+				mapPainter();
 			}
 		};
 		timer.start();
@@ -89,14 +83,11 @@ public class ServerController extends ControllerBase {
 	 * @param event マウスクリック時に受け取るイベント
 	 */
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
-		if (mapFrag != 0) {
+		if (mapFrag != 0 && ReceiveModel.clientValue >= 0) {
 			
-			ReceiveModel.data = mapFrag + ":" + (int)event.getX() + ":" + (int)event.getY();
+			ReceiveModel.data = stringMapEventAgent(event);
 			stackTrace(ReceiveModel.data);			
-			ReceiveModel.isUpdated = true;
-			
-//			server.writeFile(MAP_FILE, list);
-//			server.writeObject(list);
+			ReceiveModel.isUpdated = true;			
 		}
 	}
 	
@@ -108,11 +99,11 @@ public class ServerController extends ControllerBase {
 	@FXML public void handleButtonAction(ActionEvent event) throws Exception {
 		switch (getId(event.toString())) {
 		case "connection_button":
-			connection_button.setText("Hello");
+			connection_button.setText("Connecting...");
 			init();
 			break;
 		case "disconnection_button":
-			connection_button.setText("Connection");
+			connection_button.setText("NotConnection");
 			server.closeTransport();
 			break;
 			
@@ -155,6 +146,10 @@ public class ServerController extends ControllerBase {
 		case "doll_map_button":
 			if (mapFrag != 3)	mapFrag = 0;
 			mapFrag ^= 3;
+			break;
+		case "dust_map_button":
+			if (mapFrag != 4)	mapFrag = 0;
+			mapFrag ^= 4;
 			break;
 			
 		case "submit1_button":

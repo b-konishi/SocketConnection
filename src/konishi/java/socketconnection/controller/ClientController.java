@@ -52,7 +52,6 @@ public class ClientController extends ControllerBase {
 	private static final String MAP_FILE = StoreData.CLIENT_MAP_FILE;
 	
 	private TransmitClient client = null;
-	private int[] coordinate = new int[3];
 	
 	/**
 	 * 初期化処理を記述するメソッドです。
@@ -66,20 +65,7 @@ public class ClientController extends ControllerBase {
 		AnimationTimer timer = new AnimationTimer() {	
 			@Override
 			public void handle(long now) {
-//				stackTrace();
-				try {
-					if (ReceiveModel.isUpdated) {
-						// convertCoordinates(ReceiveModel.getList());
-						coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length));
-						for (int i = 0; i < coordinate.length; i++) {
-							System.out.println(coordinate[i]);
-						}
-						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
-						ReceiveModel.isUpdated = false;
-					}
-				} catch (Exception e) {
-					errorStackTrace(e);
-				}
+				mapPainter();
 			}
 		};
 		timer.start();
@@ -92,18 +78,11 @@ public class ClientController extends ControllerBase {
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
 			
-			ReceiveModel.data = mapFrag + ":" + (int)event.getX() + ":" + (int)event.getY();
+			ReceiveModel.data = stringMapEventAgent(event);
 			
 			client.write(ReceiveModel.data);
 			
 			ReceiveModel.isUpdated = true;
-			
-			
-//			drawFigure(mapFrag, event.getX(), event.getY());
-//			
-//			ArrayList<JsonType> list = mapCoordinateManager();
-//			client.writeFile(MAP_FILE, list);
-//			client.writeObject(list);
 		}
 	}
 

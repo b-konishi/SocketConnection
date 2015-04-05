@@ -34,7 +34,7 @@
                      </children>
                   </HBox>
                   <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="298.0" layoutY="14.0" prefHeight="25.0" prefWidth="85.0" text="通信状況" />
-                  <Label alignment="CENTER" layoutX="368.0" layoutY="15.0" prefHeight="25.0" prefWidth="121.0" text="192.168.0.200" />
+                  <Label alignment="CENTER" layoutX="368.0" layoutY="15.0" prefHeight="25.0" prefWidth="121.0" text="192.168.1.200" />
                   <ProgressBar layoutX="486.0" layoutY="17.0" prefHeight="20.0" prefWidth="54.0" progress="0.0" />
                   <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="16.0" />
                   <ImageView fitHeight="25.0" fitWidth="26.0" layoutX="553.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

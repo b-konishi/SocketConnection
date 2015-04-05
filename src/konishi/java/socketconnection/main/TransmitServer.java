@@ -50,6 +50,9 @@ public class TransmitServer extends TransmitBase {
 		stackTrace();
 	}
 	
+	public String getAdress() {
+		return "" + server.getLocalPort();
+	}
 	
 	@Override
 	public void closeTransport() throws IOException {
@@ -63,8 +66,6 @@ public class TransmitServer extends TransmitBase {
 class MultiThreadManager extends Thread {
 	Socket socket;
 	String data_tmp, data;
-	
-	int myNumber;
 	
 	PrintWriter out;
 	BufferedReader in;
@@ -85,7 +86,6 @@ class MultiThreadManager extends Thread {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println(socket.getRemoteSocketAddress());
 				try {
 					while ((data_tmp = in.readLine()) != null) {
 						ReceiveModel.data = data_tmp;
@@ -98,7 +98,6 @@ class MultiThreadManager extends Thread {
 		while (true) {
 			if (ReceiveModel.data != null && data != ReceiveModel.data) {
 				data = ReceiveModel.data;
-				System.out.println("if文の中！");
 				out.println(data);
 			}
 		}

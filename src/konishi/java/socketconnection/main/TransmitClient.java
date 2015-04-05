@@ -30,6 +30,7 @@ public class TransmitClient extends TransmitBase implements Runnable {
 		if(!socket.isConnected()) {
 			socket.connect(socketAddress, 100);
 		}
+		stackTrace(socket.getLocalSocketAddress());
 		
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);

@@ -21,7 +21,7 @@ public class ServerView extends Application {
 //		stage.setFullScreen(true);
 		
 		root = FXMLLoader.load(getClass().getResource("server.fxml"));
-
+		
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		
