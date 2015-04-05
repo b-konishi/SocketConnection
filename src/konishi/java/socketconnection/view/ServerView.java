@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class ServerView extends Application {
 	private Stage stage = null;
 	private AnchorPane root = null;
-	
+		
 	public void initialize() {
 		launch();
 	}
@@ -26,6 +26,8 @@ public class ServerView extends Application {
 		stage.setScene(scene);
 		
 		stage.show();
+		
+		
 	}
 	
 	@Override

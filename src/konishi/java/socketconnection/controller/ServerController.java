@@ -1,17 +1,16 @@
 package konishi.java.socketconnection.controller;
 
-import java.util.ArrayList;
-
-import javafx.application.Platform;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import konishi.java.socketconnection.base.ControllerBase;
+import konishi.java.socketconnection.json.MapCoordinates;
 import konishi.java.socketconnection.main.TransmitServer;
+import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
-import konishi.java.socketconnection.type.JsonType;
 
 /**
  * サーバー側のコントローラーです。
@@ -20,7 +19,7 @@ import konishi.java.socketconnection.type.JsonType;
  * @author konishi
  * @see ClientController
  */
-public class ServerController extends ControllerBase implements Runnable {
+public class ServerController extends ControllerBase {
 	
 	@FXML public AnchorPane root_map;
 	
@@ -55,47 +54,47 @@ public class ServerController extends ControllerBase implements Runnable {
 	private static final String MAP_FILE = StoreData.SERVER_MAP_FILE;
 	
 	private TransmitServer server = null;
-	
+	private AnimationTimer timer = null;
+			
 	// #initializeとすると初期値設定メソッドのオーバーライドだと思われてしまうことに注意
 	public void init() throws Exception {
 		server = new TransmitServer();
 		stackTrace();
 		setRootMap(root_map);
 		server.clearFile(MAP_FILE);
-	}
-	
-	@Override
-	public void run() {
 		
-		while (true) {
-			try {
-				stackTrace();
-				ArrayList<JsonType> list = server.readFile(MAP_FILE);
-				
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						convertCoordinates(list);
+		timer = new AnimationTimer() {	
+			@Override
+			public void handle(long now) {
+//				stackTrace(ReceiveModel.getFlag());
+				try {
+					if (ReceiveModel.isUpdatedListToDraw) {
+						drawFigure(ReceiveModel.map.itemID,ReceiveModel.map.itemX, ReceiveModel.map.itemY);
+						ReceiveModel.isUpdatedListToDraw = false;
 					}
-				});
-			} catch(Exception e) {
-				errorStackTrace(e);	
-				continue;
+
+				} catch (Exception e) {
+//					errorStackTrace(e);
+				}
 			}
-		}
+		};
+		timer.start();
+		
 	}
-	
+		
 	/**
 	 * マウスクリック時の動作を定義します。
 	 * @param event マウスクリック時に受け取るイベント
 	 */
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
-			drawFigure(mapFrag, event.getX(), event.getY());
 			
-			ArrayList<JsonType> list = manageMapCoordinates();
-			server.writeFile(MAP_FILE, list);
-			server.writeObject(list);
+			ReceiveModel.map = new MapCoordinates(mapFrag, event.getX(),event.getY());
+						
+			ReceiveModel.isUpdatedListToDraw = true;
+			
+//			server.writeFile(MAP_FILE, list);
+//			server.writeObject(list);
 		}
 	}
 	

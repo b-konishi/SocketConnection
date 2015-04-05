@@ -1,17 +1,19 @@
 package konishi.java.socketconnection.controller;
 
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
-import javafx.application.Platform;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import konishi.java.socketconnection.base.ControllerBase;
+import konishi.java.socketconnection.json.MapCoordinates;
 import konishi.java.socketconnection.main.TransmitClient;
+import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
-import konishi.java.socketconnection.type.JsonType;
+
 
 /**
  * クライアント側のコントローラーです。
@@ -20,7 +22,7 @@ import konishi.java.socketconnection.type.JsonType;
  * @author konishi
  * @see ServerController
  */
-public class ClientController extends ControllerBase implements Runnable {
+public class ClientController extends ControllerBase {
 	
 	@FXML public AnchorPane root_map;
 	
@@ -59,33 +61,26 @@ public class ClientController extends ControllerBase implements Runnable {
 	 */
 	public void init() throws Exception {
 		client = new TransmitClient();
-		client.setup();
 		
 		setRootMap(root_map);
 		client.clearFile(MAP_FILE);
 		
-		new Thread(this).start();
-	}
-	
-	@Override
-	public void run() {
-		while (client.isConnected()) {
-			try {
-				stackTrace();
-				ArrayList<JsonType> list = client.readFile(MAP_FILE);
-				
-				// JavaFXとは違うスレッドで動いているため、処理が終わってから実行する。
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						convertCoordinates(list);
+		AnimationTimer timer = new AnimationTimer() {	
+			@Override
+			public void handle(long now) {
+//				stackTrace();
+				try {
+					if (ReceiveModel.isUpdatedListToDraw) {
+						// convertCoordinates(ReceiveModel.getList());
+						drawFigure(ReceiveModel.map.itemID, ReceiveModel.map.itemX, ReceiveModel.map.itemY);
+						ReceiveModel.isUpdatedListToDraw = false;
 					}
-				});
-			} catch(Exception e) {
-				errorStackTrace(e);
-				return;
+				} catch (Exception e) {
+					errorStackTrace(e);
+				}
 			}
-		}
+		};
+		timer.start();
 	}
 	
 	/**
@@ -94,11 +89,19 @@ public class ClientController extends ControllerBase implements Runnable {
 	 */
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
-			drawFigure(mapFrag, event.getX(), event.getY());
 			
-			ArrayList<JsonType> list = manageMapCoordinates();
-			client.writeFile(MAP_FILE, list);
-			client.writeObject(list);
+			ReceiveModel.map = new MapCoordinates(mapFrag, event.getX(),event.getY());
+			
+			client.writeObject(ReceiveModel.map);
+			
+			ReceiveModel.isUpdatedListToDraw = true;
+			
+			
+//			drawFigure(mapFrag, event.getX(), event.getY());
+//			
+//			ArrayList<JsonType> list = mapCoordinateManager();
+//			client.writeFile(MAP_FILE, list);
+//			client.writeObject(list);
 		}
 	}
 

@@ -11,18 +11,20 @@ import konishi.java.socketconnection.type.JsonType;
  * @author konishi
  */
 public class MapCoordinates extends JsonType implements Serializable {
+	
 	/**
 	 * ObjectOutputStream#readObjectを実行するため、シリアライズする。
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8793051461476476029L;
 	
 	public int itemID;
 	public double itemX;
 	public double itemY;
 	
 	public MapCoordinates(int id, double x, double y) {
-		this.itemID = id;
-		this.itemX = x;
-		this.itemY = y;
+		itemID = id;
+		itemX = x;
+		itemY = y;
 	}
+
 }

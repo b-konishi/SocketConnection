@@ -11,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import konishi.java.socketconnection.json.MapCoordinates;
-import konishi.java.socketconnection.type.JsonType;
 
 /**
  * Client側・Server側双方に共通する処理をまとめた基底クラスです。
@@ -44,9 +43,9 @@ abstract public class ControllerBase extends TotalBase {
 	 * JSON形式で、ArrayListに格納します。
 	 * @return JSON形式のリスト
 	 */
-	public ArrayList<JsonType> manageMapCoordinates() {
-		MapCoordinates map = new MapCoordinates(mapFrag, r.getX(),r.getY());
-		ArrayList<JsonType> list = new ArrayList<JsonType>();
+	public ArrayList mapCoordinateManager() {
+		MapCoordinates map = new MapCoordinates(mapFrag, (int)r.getX(), (int)r.getY());
+		ArrayList list = new ArrayList();
 		list.add(map);
 		return list;
 	}
@@ -55,12 +54,12 @@ abstract public class ControllerBase extends TotalBase {
 	 * 座標変換を行います。
 	 * @param list JSON形式のリスト
 	 */
-	public void convertCoordinates(ArrayList<JsonType> list) {
+	public void convertCoordinates(ArrayList list) {
 		if (list == null)	return;
 		
-		MapCoordinates map = (MapCoordinates) list.get(0);
-		System.out.println("convertCoordinate");
-		System.out.println(map.itemX + "  " + map.itemY);
+		MapCoordinates map = (MapCoordinates) list.get(list.size()-1);
+//		System.out.println("convertCoordinate");
+//		System.out.println(map.itemX + "  " + map.itemY);
 		drawFigure(map.itemID, map.itemX, map.itemY);
 	}
 	
@@ -70,7 +69,9 @@ abstract public class ControllerBase extends TotalBase {
 	 * @param x X座標
 	 * @param y Y座標
 	 */
-	public void drawFigure(int id, double x, double y) {	
+	public void drawFigure(int id, double x, double y) {
+		stackTrace(id + " " + x + " " + y);
+		
 		r = new Rectangle(10, 10);
 		r.setX(x - r.getWidth()/2);
 		r.setY(y - r.getHeight()/2);

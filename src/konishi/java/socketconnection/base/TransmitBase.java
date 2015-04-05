@@ -13,7 +13,6 @@ import konishi.java.socketconnection.type.JsonType;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 
-
 /**
  * 通信・ファイルの根底となる制御クラスです。
  * @version 1.0.0
@@ -39,6 +38,21 @@ abstract public class TransmitBase extends TotalBase {
 	public boolean isConnected() {
 		return socket.isConnected();
 	}
+	
+//	public boolean mapEqual(MapCoordinates map1, MapCoordinates map2) {
+//		try {
+//			if (map1 == null && map2 != null)
+//				return false;
+//			
+//			if (map1.itemID == map2.itemID && map1.itemX == map2.itemX && map1.itemY == map2.itemY)
+//				return true;
+//			else
+//				return false;
+//		} catch (NullPointerException e) {
+////			errorStackTrace(e);
+//			return true;
+//		}
+//	}
 	
 	/**
 	 * ファイルの中身を空にします。
@@ -97,7 +111,7 @@ abstract public class TransmitBase extends TotalBase {
 		if (obj instanceof Object) {
 			oos.writeObject(obj);
 			oos.flush();
-			stackTrace();
+//			stackTrace();
 		}
 	}
 	
@@ -108,7 +122,7 @@ abstract public class TransmitBase extends TotalBase {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T readObject() throws Exception {
-		System.out.println("Reach readObject");
+		stackTrace();
 		return (T)ois.readObject();
 	}
 	
