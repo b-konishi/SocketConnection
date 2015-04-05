@@ -12,19 +12,19 @@ import konishi.java.socketconnection.type.JsonType;
  */
 public class MapCoordinates extends JsonType implements Serializable {
 	
-	/**
-	 * ObjectOutputStream#readObjectを実行するため、シリアライズする。
-	 */
-	private static final long serialVersionUID = -8793051461476476029L;
-	
-	public int itemID;
-	public double itemX;
-	public double itemY;
-	
-	public MapCoordinates(int id, double x, double y) {
-		itemID = id;
-		itemX = x;
-		itemY = y;
-	}
+//	/**
+//	 * ObjectOutputStream#readObjectを実行するため、シリアライズする。
+//	 */
+//	private static final long serialVersionUID = -8793051461476476029L;
+//	
+//	public int itemID;
+//	public double itemX;
+//	public double itemY;
+//	
+//	public MapCoordinates(int id, double x, double y) {
+//		itemID = id;
+//		itemX = x;
+//		itemY = y;
+//	}
 
 }

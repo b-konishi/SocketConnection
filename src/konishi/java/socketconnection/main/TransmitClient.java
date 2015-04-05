@@ -1,21 +1,23 @@
 package konishi.java.socketconnection.main;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 
 import konishi.java.socketconnection.base.TransmitBase;
-import konishi.java.socketconnection.json.MapCoordinates;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
 
 public class TransmitClient extends TransmitBase implements Runnable {
 	
 	private InetSocketAddress socketAddress = null;
-	private MapCoordinates map;
+	
+	String data;
 	
 	PrintWriter out;
+	BufferedReader in;
 		
 	public TransmitClient() throws Exception {
 		super();
@@ -29,7 +31,8 @@ public class TransmitClient extends TransmitBase implements Runnable {
 			socket.connect(socketAddress, 100);
 		}
 		
-		ois = new ObjectInputStream(socket.getInputStream());
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		out = new PrintWriter(socket.getOutputStream(), true);
 		
 		new Thread(this).start();
 	}
@@ -37,11 +40,15 @@ public class TransmitClient extends TransmitBase implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while ((map = (MapCoordinates)ois.readObject()) != null) {
-				ReceiveModel.map = map;
+			while ((data = in.readLine()) != null) {
+				ReceiveModel.data = data;
 				ReceiveModel.isUpdatedListToDraw = true;
 			}
 		} catch (Exception e) {}
+	}
+	
+	public void write(String data) {
+		out.println(data);
 	}
 	
 }

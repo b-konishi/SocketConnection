@@ -1,6 +1,5 @@
 package konishi.java.socketconnection.base;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import konishi.java.socketconnection.json.MapCoordinates;
 
 /**
  * Client側・Server側双方に共通する処理をまとめた基底クラスです。
@@ -43,25 +41,25 @@ abstract public class ControllerBase extends TotalBase {
 	 * JSON形式で、ArrayListに格納します。
 	 * @return JSON形式のリスト
 	 */
-	public ArrayList mapCoordinateManager() {
-		MapCoordinates map = new MapCoordinates(mapFrag, (int)r.getX(), (int)r.getY());
-		ArrayList list = new ArrayList();
-		list.add(map);
-		return list;
-	}
+//	public ArrayList mapCoordinateManager() {
+//		MapCoordinates map = new MapCoordinates(mapFrag, (int)r.getX(), (int)r.getY());
+//		ArrayList list = new ArrayList();
+//		list.add(map);
+//		return list;
+//	}
 	
 	/**
 	 * 座標変換を行います。
 	 * @param list JSON形式のリスト
 	 */
-	public void convertCoordinates(ArrayList list) {
-		if (list == null)	return;
-		
-		MapCoordinates map = (MapCoordinates) list.get(list.size()-1);
-//		System.out.println("convertCoordinate");
-//		System.out.println(map.itemX + "  " + map.itemY);
-		drawFigure(map.itemID, map.itemX, map.itemY);
-	}
+//	public void convertCoordinates(ArrayList list) {
+//		if (list == null)	return;
+//		
+//		MapCoordinates map = (MapCoordinates) list.get(list.size()-1);
+////		System.out.println("convertCoordinate");
+////		System.out.println(map.itemX + "  " + map.itemY);
+//		drawFigure(map.itemID, map.itemX, map.itemY);
+//	}
 	
 	/**
 	 * 図形を描画します。

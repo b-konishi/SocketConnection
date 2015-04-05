@@ -3,7 +3,6 @@ package konishi.java.socketconnection.base;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ abstract public class TransmitBase extends TotalBase {
 	protected Socket socket = null;
 	
 	protected ObjectOutputStream oos = null;
-	protected ObjectInputStream ois = null;
 	
 	public TransmitBase() {
 		socket = new Socket();
@@ -91,13 +89,13 @@ abstract public class TransmitBase extends TotalBase {
 	 * @return 読み込んだリスト
 	 * @throws Exception エラー
 	 */
-	public ArrayList<JsonType> readFile(String filePath) throws Exception {
-		stackTrace();
-		ArrayList<JsonType> list = readObject();
-		if (list == null)	return null;
-		writeFile(filePath, list);
-		return list;
-	}
+//	public ArrayList<JsonType> readFile(String filePath) throws Exception {
+//		stackTrace();
+//		ArrayList<JsonType> list = readObject();
+//		if (list == null)	return null;
+//		writeFile(filePath, list);
+//		return list;
+//	}
 	
 	/**
 	 * オブジェクトを書き込みます。
@@ -105,26 +103,26 @@ abstract public class TransmitBase extends TotalBase {
 	 * @param obj 基底クラスをObject型とするインスタンス
 	 * @throws IOException 入出力エラー
 	 */
-	public <T> void writeObject(T obj) throws IOException {
-		if (obj == null)	return;
-		
-		if (obj instanceof Object) {
-			oos.writeObject(obj);
-			oos.flush();
-//			stackTrace();
-		}
-	}
+//	public <T> void writeObject(T obj) throws IOException {
+//		if (obj == null)	return;
+//		
+//		if (obj instanceof Object) {
+//			oos.writeObject(obj);
+//			oos.flush();
+////			stackTrace();
+//		}
+//	}
 	
 	/**
 	 * オブジェクトを読み込みます。
 	 * @return 基底クラスをObject型とするインスタンス
 	 * @throws Exception 通信エラー
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T readObject() throws Exception {
-		stackTrace();
-		return (T)ois.readObject();
-	}
+//	@SuppressWarnings("unchecked")
+//	public <T> T readObject() throws Exception {
+//		stackTrace();
+//		return (T)ois.readObject();
+//	}
 	
 	/**
 	 * ソケット・ストリームのクローズを行います。
@@ -136,7 +134,7 @@ abstract public class TransmitBase extends TotalBase {
 			stackTrace();
 		}
 
-		ois.close();
+//		ois.close();
 		oos.close();
 		System.out.println("CLOSE");
 	}

@@ -1,13 +1,13 @@
 package konishi.java.socketconnection.main;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import konishi.java.socketconnection.base.TransmitBase;
-import konishi.java.socketconnection.json.MapCoordinates;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
 
@@ -62,19 +62,18 @@ public class TransmitServer extends TransmitBase {
 
 class MultiThreadManager extends Thread {
 	Socket socket;
-	MapCoordinates map;
-	MapCoordinates map_tmp;
+	String data_tmp, data;
 	
 	PrintWriter out;
-	ObjectInputStream ois;
+	BufferedReader in;
 	
 	public MultiThreadManager(Socket _socket) throws Exception {
 		socket = _socket;
 		
 		System.out.println(socket.getRemoteSocketAddress() + "が接続されました");
 		
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
-		ois = new ObjectInputStream(socket.getInputStream());		
 	}
 	
 	@Override
@@ -85,25 +84,20 @@ class MultiThreadManager extends Thread {
 			public void run() {
 				System.out.println(socket.getRemoteSocketAddress());
 				try {
-					while ((map_tmp = (MapCoordinates)ois.readObject()) != null) {
-						ReceiveModel.map = map_tmp;
+					while ((data_tmp = in.readLine()) != null) {
+						ReceiveModel.data = data_tmp;
 						ReceiveModel.isUpdatedListToDraw = true;
 					}
-				} catch (ClassNotFoundException | IOException e) {}
+				} catch (Exception e) {}
 			}
 		}).start();
 		
 		while (true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e1) {}
-			if (ReceiveModel.map != null && map != ReceiveModel.map) {
-				map = ReceiveModel.map;
+			if (ReceiveModel.data != null && data != ReceiveModel.data) {
+				data = ReceiveModel.data;
 				System.out.println("if文の中！");
-				out.print(map);
+				out.println(data);
 			}
-			// map = ReceiveModel.getMap();
-//			stackTrace();
 		}
 	}
 	

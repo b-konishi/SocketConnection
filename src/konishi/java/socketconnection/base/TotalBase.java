@@ -1,7 +1,33 @@
 package konishi.java.socketconnection.base;
 
+import java.util.StringTokenizer;
+
 
 public class TotalBase {
+	
+	public String[] stringSeparator(String str) {
+		
+		String[] data = new String[3];
+
+        StringTokenizer st = new StringTokenizer(str , ":");
+
+        //分割した文字を画面出力する
+        while (st.hasMoreTokens()) {
+            data[data.length - st.countTokens()] = st.nextToken();
+        }
+        
+        return data;
+	}
+	
+	public int[] parseIntArray(String[] str) {
+		int[] data = new int[str.length];
+		
+		for (int i = 0; i < str.length; i++) {
+			data[i] = Integer.parseInt(str[i]);
+		}
+		
+		return data;
+	}
 	
 	
 	/**

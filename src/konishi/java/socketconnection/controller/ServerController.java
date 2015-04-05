@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import konishi.java.socketconnection.base.ControllerBase;
-import konishi.java.socketconnection.json.MapCoordinates;
 import konishi.java.socketconnection.main.TransmitServer;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
@@ -50,11 +49,13 @@ public class ServerController extends ControllerBase {
 	@FXML public Button robot_map_button;
 	@FXML public Button rubble_map_button;
 	@FXML public Button doll_map_button;
-		
+	
 	private static final String MAP_FILE = StoreData.SERVER_MAP_FILE;
 	
 	private TransmitServer server = null;
 	private AnimationTimer timer = null;
+	
+	private int[] coordinate = new int[3];
 			
 	// #initializeとすると初期値設定メソッドのオーバーライドだと思われてしまうことに注意
 	public void init() throws Exception {
@@ -66,10 +67,11 @@ public class ServerController extends ControllerBase {
 		timer = new AnimationTimer() {	
 			@Override
 			public void handle(long now) {
-//				stackTrace(ReceiveModel.getFlag());
 				try {
 					if (ReceiveModel.isUpdatedListToDraw) {
-						drawFigure(ReceiveModel.map.itemID,ReceiveModel.map.itemX, ReceiveModel.map.itemY);
+						coordinate = parseIntArray(stringSeparator(ReceiveModel.data));
+						stackTrace(coordinate[0] + " " + coordinate[1] + " " + coordinate[2]);	
+						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
 						ReceiveModel.isUpdatedListToDraw = false;
 					}
 
@@ -89,8 +91,8 @@ public class ServerController extends ControllerBase {
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
 			
-			ReceiveModel.map = new MapCoordinates(mapFrag, event.getX(),event.getY());
-						
+			ReceiveModel.data = mapFrag + ":" + (int)event.getX() + ":" + (int)event.getY();
+			stackTrace(ReceiveModel.data);			
 			ReceiveModel.isUpdatedListToDraw = true;
 			
 //			server.writeFile(MAP_FILE, list);

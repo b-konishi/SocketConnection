@@ -1,7 +1,5 @@
 package konishi.java.socketconnection.controller;
 
-import java.io.PrintWriter;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import konishi.java.socketconnection.base.ControllerBase;
-import konishi.java.socketconnection.json.MapCoordinates;
 import konishi.java.socketconnection.main.TransmitClient;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
@@ -55,6 +52,7 @@ public class ClientController extends ControllerBase {
 	private static final String MAP_FILE = StoreData.CLIENT_MAP_FILE;
 	
 	private TransmitClient client = null;
+	private int[] coordinateStrings = new int[3];
 	
 	/**
 	 * 初期化処理を記述するメソッドです。
@@ -72,7 +70,11 @@ public class ClientController extends ControllerBase {
 				try {
 					if (ReceiveModel.isUpdatedListToDraw) {
 						// convertCoordinates(ReceiveModel.getList());
-						drawFigure(ReceiveModel.map.itemID, ReceiveModel.map.itemX, ReceiveModel.map.itemY);
+						coordinateStrings = parseIntArray(stringSeparator(ReceiveModel.data));
+						for (int i = 0; i < coordinateStrings.length; i++) {
+							System.out.println(coordinateStrings[i]);
+						}
+						drawFigure(coordinateStrings[0], coordinateStrings[1], coordinateStrings[2]);
 						ReceiveModel.isUpdatedListToDraw = false;
 					}
 				} catch (Exception e) {
@@ -90,9 +92,9 @@ public class ClientController extends ControllerBase {
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
 			
-			ReceiveModel.map = new MapCoordinates(mapFrag, event.getX(),event.getY());
+			ReceiveModel.data = mapFrag + ":" + (int)event.getX() + ":" + (int)event.getY();
 			
-			client.writeObject(ReceiveModel.map);
+			client.write(ReceiveModel.data);
 			
 			ReceiveModel.isUpdatedListToDraw = true;
 			
