@@ -42,7 +42,7 @@ public class TransmitClient extends TransmitBase implements Runnable {
 		try {
 			while ((data = in.readLine()) != null) {
 				ReceiveModel.data = data;
-				ReceiveModel.isUpdatedListToDraw = true;
+				ReceiveModel.isUpdated = true;
 			}
 		} catch (Exception e) {}
 	}

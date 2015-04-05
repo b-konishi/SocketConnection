@@ -68,14 +68,14 @@ public class ClientController extends ControllerBase {
 			public void handle(long now) {
 //				stackTrace();
 				try {
-					if (ReceiveModel.isUpdatedListToDraw) {
+					if (ReceiveModel.isUpdated) {
 						// convertCoordinates(ReceiveModel.getList());
 						coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length));
 						for (int i = 0; i < coordinate.length; i++) {
 							System.out.println(coordinate[i]);
 						}
 						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
-						ReceiveModel.isUpdatedListToDraw = false;
+						ReceiveModel.isUpdated = false;
 					}
 				} catch (Exception e) {
 					errorStackTrace(e);
@@ -96,7 +96,7 @@ public class ClientController extends ControllerBase {
 			
 			client.write(ReceiveModel.data);
 			
-			ReceiveModel.isUpdatedListToDraw = true;
+			ReceiveModel.isUpdated = true;
 			
 			
 //			drawFigure(mapFrag, event.getX(), event.getY());

@@ -68,11 +68,11 @@ public class ServerController extends ControllerBase {
 			@Override
 			public void handle(long now) {
 				try {
-					if (ReceiveModel.isUpdatedListToDraw) {
+					if (ReceiveModel.isUpdated) {
 						coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length));
 						stackTrace(coordinate[0] + " " + coordinate[1] + " " + coordinate[2]);	
 						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
-						ReceiveModel.isUpdatedListToDraw = false;
+						ReceiveModel.isUpdated = false;
 					}
 
 				} catch (Exception e) {
@@ -93,7 +93,7 @@ public class ServerController extends ControllerBase {
 			
 			ReceiveModel.data = mapFrag + ":" + (int)event.getX() + ":" + (int)event.getY();
 			stackTrace(ReceiveModel.data);			
-			ReceiveModel.isUpdatedListToDraw = true;
+			ReceiveModel.isUpdated = true;
 			
 //			server.writeFile(MAP_FILE, list);
 //			server.writeObject(list);

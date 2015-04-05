@@ -64,13 +64,16 @@ class MultiThreadManager extends Thread {
 	Socket socket;
 	String data_tmp, data;
 	
+	int myNumber;
+	
 	PrintWriter out;
 	BufferedReader in;
 	
 	public MultiThreadManager(Socket _socket) throws Exception {
 		socket = _socket;
+		ReceiveModel.clientValue++;
 		
-		System.out.println(socket.getRemoteSocketAddress() + "が接続されました");
+		System.out.println(ReceiveModel.clientValue + "台目: " + socket.getRemoteSocketAddress() + "が接続されました");
 		
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
@@ -86,7 +89,7 @@ class MultiThreadManager extends Thread {
 				try {
 					while ((data_tmp = in.readLine()) != null) {
 						ReceiveModel.data = data_tmp;
-						ReceiveModel.isUpdatedListToDraw = true;
+						ReceiveModel.isUpdated = true;
 					}
 				} catch (Exception e) {}
 			}
