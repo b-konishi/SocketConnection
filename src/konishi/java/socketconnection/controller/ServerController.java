@@ -69,7 +69,7 @@ public class ServerController extends ControllerBase {
 			public void handle(long now) {
 				try {
 					if (ReceiveModel.isUpdatedListToDraw) {
-						coordinate = parseIntArray(stringSeparator(ReceiveModel.data));
+						coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length));
 						stackTrace(coordinate[0] + " " + coordinate[1] + " " + coordinate[2]);	
 						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
 						ReceiveModel.isUpdatedListToDraw = false;

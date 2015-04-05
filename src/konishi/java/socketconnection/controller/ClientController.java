@@ -52,7 +52,7 @@ public class ClientController extends ControllerBase {
 	private static final String MAP_FILE = StoreData.CLIENT_MAP_FILE;
 	
 	private TransmitClient client = null;
-	private int[] coordinateStrings = new int[3];
+	private int[] coordinate = new int[3];
 	
 	/**
 	 * 初期化処理を記述するメソッドです。
@@ -70,11 +70,11 @@ public class ClientController extends ControllerBase {
 				try {
 					if (ReceiveModel.isUpdatedListToDraw) {
 						// convertCoordinates(ReceiveModel.getList());
-						coordinateStrings = parseIntArray(stringSeparator(ReceiveModel.data));
-						for (int i = 0; i < coordinateStrings.length; i++) {
-							System.out.println(coordinateStrings[i]);
+						coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length));
+						for (int i = 0; i < coordinate.length; i++) {
+							System.out.println(coordinate[i]);
 						}
-						drawFigure(coordinateStrings[0], coordinateStrings[1], coordinateStrings[2]);
+						drawFigure(coordinate[0], coordinate[1], coordinate[2]);
 						ReceiveModel.isUpdatedListToDraw = false;
 					}
 				} catch (Exception e) {

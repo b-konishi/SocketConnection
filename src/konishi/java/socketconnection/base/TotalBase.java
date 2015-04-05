@@ -5,13 +5,17 @@ import java.util.StringTokenizer;
 
 public class TotalBase {
 	
-	public String[] stringSeparator(String str) {
+	/**
+	 * :文字で区切られた文字を分割する
+	 * @param str
+	 * @return
+	 */
+	public String[] stringSeparator(String str, int num) {
 		
-		String[] data = new String[3];
+		String[] data = new String[num];
 
         StringTokenizer st = new StringTokenizer(str , ":");
 
-        //分割した文字を画面出力する
         while (st.hasMoreTokens()) {
             data[data.length - st.countTokens()] = st.nextToken();
         }
@@ -25,7 +29,6 @@ public class TotalBase {
 		for (int i = 0; i < str.length; i++) {
 			data[i] = Integer.parseInt(str[i]);
 		}
-		
 		return data;
 	}
 	
