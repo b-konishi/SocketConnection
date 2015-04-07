@@ -52,42 +52,76 @@ public class ServerController extends ControllerBase {
 	@FXML public Button doll_map_button;
 	@FXML public Button dust_map_button;
 	
-	@FXML public Label ip_adress;
+	@FXML public Button shutdown_button;
 	
-	private static final String MAP_FILE = StoreData.SERVER_MAP_FILE;
+	@FXML public Label ip_adress;
+	@FXML public Label ip_adress1;
+	@FXML public Label ip_adress2;
+	@FXML public Label ip_adress3;
+	@FXML public Label ip_adress4;
+	
+	
+	
+//	private static final String MAP_FILE = StoreData.SERVER_MAP_FILE;
 	
 	private TransmitServer server = null;
 	private AnimationTimer timer = null;
+	
+	private int clientValue = 0;
 				
-	// #initializeとすると初期値設定メソッドのオーバーライドだと思われてしまうことに注意
-	public void init() throws Exception {
-		server = new TransmitServer();
-		stackTrace();
-		setRootMap(root_map);
-		server.clearFile(MAP_FILE);
-		
-		ip_adress.setText(server.getAdress());
-		
+	public void initialize() {
 		timer = new AnimationTimer() {	
 			@Override
 			public void handle(long now) {
-				mapPainter();
+				portPrinter();
+				mapPainter(StoreData.DEFAULT_MAP_ITEM_SIZE, StoreData.DEFAULT_MAP_ITEM_SIZE);
 			}
 		};
 		timer.start();
-		
 	}
+	
+	/**
+	 * connectボタンを押した際の初期処理です。
+	 * #initializeとは違うことに注意してください。
+	 * @throws Exception
+	 */
+	public void firstConnection() throws Exception {
+		stackTrace(StoreData.PORT);
+		server = new TransmitServer();
+		stackTrace();
+		setRootMap(root_map);
+//		server.clearFile(MAP_FILE);
 		
+		ip_adress.setText(server.getPort());
+	}
+	
+	/**
+	 * サーバー画面のポート表示を管理します。
+	 * クライアントが切断された時、自動的に対象から外します。
+	 */
+	public void portPrinter() {
+		Label[] clientAdress = {ip_adress1, ip_adress2, ip_adress3, ip_adress4};
+		
+		while (clientValue > ReceiveModel.clientValue) {
+			clientAdress[--clientValue].setText("未設定");
+		}
+		clientValue = ReceiveModel.clientValue;
+		for (int i = 0; i < clientValue; i++) {
+			if (clientAdress[i].getText().equals("未設定")) {
+				clientAdress[i].setText(ReceiveModel.clientAdress.get(i));
+			}
+		}
+	}
+	
 	/**
 	 * マウスクリック時の動作を定義します。
 	 * @param event マウスクリック時に受け取るイベント
 	 */
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0 && ReceiveModel.clientValue >= 0) {
-			
-			ReceiveModel.data = stringMapEventAgent(event);
-			stackTrace(ReceiveModel.data);			
-			ReceiveModel.isUpdated = true;			
+			ReceiveModel.data = stringMapEventAgent(StoreData.LOCAL, mapFrag, (int)event.getX(), (int)event.getY());
+			ReceiveModel.sendData = stringMapEventAgent(StoreData.REMOTE_CLIENT, mapFrag, (int)event.getX(), (int)event.getY());
+			ReceiveModel.isUpdated = true;
 		}
 	}
 	
@@ -100,11 +134,15 @@ public class ServerController extends ControllerBase {
 		switch (getId(event.toString())) {
 		case "connection_button":
 			connection_button.setText("Connecting...");
-			init();
+			firstConnection();
+			clientValue = 0;
 			break;
 		case "disconnection_button":
 			connection_button.setText("NotConnection");
-			server.closeTransport();
+			ReceiveModel.emergencyStopSignal = true;
+			stackTrace(clientValue);
+			if (ReceiveModel.clientValue == 0)
+				server.closeTransport();
 			break;
 			
 		case "front_camera1_button":
@@ -159,6 +197,10 @@ public class ServerController extends ControllerBase {
 		case "submit3_button":
 			break;
 		case "submit4_button":
+			break;
+			
+		case "shutdown_button":
+			ReceiveModel.shutdownSignal = true;
 			break;
 		}
 	}

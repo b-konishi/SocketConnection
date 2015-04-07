@@ -1,9 +1,16 @@
 package konishi.java.socketconnection.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import konishi.java.socketconnection.base.ControllerBase;
@@ -49,26 +56,62 @@ public class ClientController extends ControllerBase {
 	
 	@FXML public Button submit_button;
 	
-	private static final String MAP_FILE = StoreData.CLIENT_MAP_FILE;
+	@FXML public Button shutdown_button;
+	
+	@FXML public Label ip_adress;
+	@FXML public Label emergency_stop_signal;
+	
+	@FXML public TextField input_server_adress;
+	
+//	private static final String MAP_FILE = StoreData.CLIENT_MAP_FILE;
+	
+	private static final int CLIENT_MAP_ITEM_SIZE = StoreData.DEFAULT_MAP_ITEM_SIZE / StoreData.MAP_MAGNIFICATION;
 	
 	private TransmitClient client = null;
 	
-	/**
-	 * 初期化処理を記述するメソッドです。
-	 */
-	public void init() throws Exception {
-		client = new TransmitClient();
-		
-		setRootMap(root_map);
-		client.clearFile(MAP_FILE);
+	
+	
+	public void initialize() {
 		
 		AnimationTimer timer = new AnimationTimer() {	
 			@Override
 			public void handle(long now) {
-				mapPainter();
+				if (ReceiveModel.emergencyStopSignal) {
+					emergencyDisposal();
+				} else {
+					mapPainter(CLIENT_MAP_ITEM_SIZE, CLIENT_MAP_ITEM_SIZE);
+				}
 			}
 		};
 		timer.start();
+	}
+	
+	/**
+	 * 初期化処理を記述するメソッドです。
+	 */
+	public void firstConnection() throws Exception {
+		client = new TransmitClient();
+		
+		setRootMap(root_map);
+//		client.clearFile(MAP_FILE);
+		
+		ip_adress.setText(client.getPort());
+	}
+	
+	/**
+	 * 緊急時の処理をおこないます。
+	 * 緊急時とは、サーバーの通信が途絶えた時、緊急時ストップシグナルフラグが立ち、
+	 * 処理をおこなわれます。
+	 */
+	public void emergencyDisposal() {
+		stackTrace();
+		emergency_stop_signal.setText("サーバー停止");
+		connection_button.setText("NotConnection");
+		client.write("CLOSE");
+		ReceiveModel.emergencyStopSignal = false;
+		try {
+			client.closeTransport();
+		} catch (IOException e) {}
 	}
 	
 	/**
@@ -77,29 +120,38 @@ public class ClientController extends ControllerBase {
 	 */
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
-			
-			ReceiveModel.data = stringMapEventAgent(event);
-			
-			client.write(ReceiveModel.data);
-			
+			ReceiveModel.data = stringMapEventAgent(StoreData.LOCAL, mapFrag, (int)event.getX(), (int)event.getY());
+			ReceiveModel.sendData = stringMapEventAgent(StoreData.REMOTE_SERVER, mapFrag, (int)event.getX(), (int)event.getY());
+			client.write(ReceiveModel.sendData);
 			ReceiveModel.isUpdated = true;
 		}
 	}
 
+	@FXML public void handleKeyAction(KeyEvent event) {
+		if (KeyCode.ENTER.equals(event.getCode())) {
+			ArrayList<String> text = stringSeparator(input_server_adress.getText(), ":");
+			
+			StoreData.HOST_NAME = text.get(0);
+			StoreData.PORT = Integer.parseInt(text.get(1));
+			System.out.println(input_server_adress.getText());
+			
+		}
+	}
 
 	/**
 	 * ボタンアクションを読み取ります。
 	 * @param event イベントアクション
 	 * @throws Exception エラー
 	 */
-	public void handleButtonAction(ActionEvent event) throws Exception {
+	@FXML public void handleButtonAction(ActionEvent event) throws Exception {
 		switch (getId(event.toString())) { 
 		case "connection_button":
-			connection_button.setText("Hello");
-			init();
+			emergency_stop_signal.setText("");
+			connection_button.setText("Connecting...");
+			firstConnection();
 			break;
 		case "disconnection_button":
-			connection_button.setText("Connection");
+			connection_button.setText("NotConnection");
 			client.closeTransport();
 			break;
 			
@@ -150,6 +202,12 @@ public class ClientController extends ControllerBase {
 			
 		case "submit_button":
 			break;
+			
+		case "shutdown_button":
+			client.closeTransport();
+			System.exit(0);
+			break;
+		
 		}
 	}
 }

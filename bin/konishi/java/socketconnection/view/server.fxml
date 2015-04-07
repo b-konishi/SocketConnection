@@ -231,17 +231,29 @@
       </TabPane>
       <HBox alignment="CENTER" layoutX="21.0" layoutY="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="78.0" layoutY="39.0" prefHeight="15.0" prefWidth="131.0" text="サーバー" />
-            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="231.0">
+            <Label contentDisplay="CENTER" layoutX="78.0" layoutY="39.0" prefHeight="15.0" prefWidth="65.0" text="サーバー" />
+            <Button fx:id="shutdown_button" mnemonicParsing="false" onAction="#handleButtonAction" text="SystemShutdown" />
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="155.0">
                <children>
                   <Label layoutX="184.0" layoutY="40.0" text="PORT: " />
                   <Label fx:id="ip_adress" layoutX="249.0" layoutY="42.0" text="未設定" />
                </children>
             </HBox>
-            <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="255.0" />
-            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="395.0" spacing="30.0">
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="273.0">
                <children>
-                  <Button fx:id="connection_button" layoutX="682.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Connection" />
+                  <HBox alignment="CENTER" prefHeight="25.0" spacing="20.0">
+                     <children>
+                        <Label fx:id="ip_adress1" layoutX="249.0" layoutY="42.0" text="未設定" />
+                        <Label fx:id="ip_adress2" text="未設定" />
+                        <Label fx:id="ip_adress3" text="未設定" />
+                        <Label fx:id="ip_adress4" text="未設定" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="281.0" spacing="30.0">
+               <children>
+                  <Button fx:id="connection_button" layoutX="682.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" text="NotConnection" />
                   <Button fx:id="disconnection_button" layoutX="806.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Disconnection" />
                </children>
             </HBox>

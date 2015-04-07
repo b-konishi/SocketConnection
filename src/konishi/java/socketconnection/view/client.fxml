@@ -17,24 +17,23 @@
          <children>
             <HBox alignment="CENTER" layoutX="21.0" layoutY="26.0" prefHeight="25.0" prefWidth="939.0">
                <children>
-                  <Label alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="25.0" prefWidth="109.0" text="1号機" />
-                  <Button fx:id="emergency_button" layoutX="89.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="緊急停止" />
+                  <Label alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="25.0" prefWidth="57.0" text="1号機" />
+                  <Button fx:id="shutdown_button" layoutX="89.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="133.0" text="SystemShutdown" />
                   <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="45.0" />
-                  <SplitMenuButton alignment="CENTER" layoutX="185.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Client">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                  </SplitMenuButton>
-                  <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="69.0" />
-                  <HBox alignment="CENTER" spacing="10.0">
+                  <TextField fx:id="input_server_adress" onKeyPressed="#handleKeyAction" promptText="サーバーIP Adress" />
+                  <Label fx:id="emergency_stop_signal" alignment="CENTER" contentDisplay="RIGHT" prefHeight="25.0" textAlignment="CENTER" />
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="270.0" spacing="10.0">
                      <children>
-                        <Button fx:id="connection_button" mnemonicParsing="false" onAction="#handleButtonAction" text="Connection" />
+                        <Button fx:id="connection_button" mnemonicParsing="false" onAction="#handleButtonAction" text="NotConnection" />
                         <Button fx:id="disconnection_button" mnemonicParsing="false" onAction="#handleButtonAction" text="Disconnection" />
                      </children>
                   </HBox>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="298.0" layoutY="14.0" prefHeight="25.0" prefWidth="85.0" text="通信状況" />
-                  <Label alignment="CENTER" layoutX="368.0" layoutY="15.0" prefHeight="25.0" prefWidth="121.0" text="192.168.1.200" />
+                  <HBox>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="298.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="PORT :" textAlignment="CENTER" />
+                        <Label fx:id="ip_adress" alignment="CENTER" layoutX="368.0" layoutY="15.0" prefHeight="25.0" prefWidth="74.0" text="未接続" />
+                     </children>
+                  </HBox>
                   <ProgressBar layoutX="486.0" layoutY="17.0" prefHeight="20.0" prefWidth="54.0" progress="0.0" />
                   <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="16.0" />
                   <ImageView fitHeight="25.0" fitWidth="26.0" layoutX="553.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

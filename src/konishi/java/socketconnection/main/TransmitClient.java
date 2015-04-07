@@ -14,19 +14,18 @@ public class TransmitClient extends TransmitBase implements Runnable {
 	
 	private InetSocketAddress socketAddress = null;
 	
-	String data;
-	
-	PrintWriter out;
-	BufferedReader in;
+	private PrintWriter out = null;
+	private BufferedReader in = null;
 		
 	public TransmitClient() throws Exception {
 		super();
-		
+
 		socketAddress = new InetSocketAddress(StoreData.HOST_NAME, StoreData.PORT);
 		setup();
 	}
 	
 	public void setup() throws IOException {
+		stackTrace(StoreData.PORT);
 		if(!socket.isConnected()) {
 			socket.connect(socketAddress, 100);
 		}
@@ -39,13 +38,30 @@ public class TransmitClient extends TransmitBase implements Runnable {
 	}
 	
 	@Override
+	public String getPort() {
+		return "" + socket.getLocalPort();
+	}
+	
+	@Override
 	public void run() {
+		String data;
+		
 		try {
 			while ((data = in.readLine()) != null) {
-				ReceiveModel.data = data;
-				ReceiveModel.isUpdated = true;
+				if (data.equals("SHUTDOWN"))
+					System.exit(0);
+				if (data.equals("ERROR")) {
+					ReceiveModel.emergencyStopSignal = true;
+					break;
+				}
+				else {
+					ReceiveModel.data = data;
+					ReceiveModel.isUpdated = true;
+				}
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			errorStackTrace(e);
+		}
 	}
 	
 	public void write(String data) {

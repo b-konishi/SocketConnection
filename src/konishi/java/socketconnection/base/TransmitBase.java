@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 
+import konishi.java.socketconnection.model.StoreData;
+
 /**
  * 通信・ファイルの根底となる制御クラスです。
  * @version 1.0.0
@@ -14,6 +16,14 @@ import java.net.Socket;
  */
 abstract public class TransmitBase extends TotalBase {
 	protected Socket socket = null;
+	
+	/**
+	 * PORT番号を返します。<br>
+	 * インスタンスは共通でないため、
+	 * 各サーバー・クライアントにて実装してください。
+	 * @return
+	 */
+	abstract public String getPort();
 	
 	public TransmitBase() {
 		socket = new Socket();
@@ -26,7 +36,6 @@ abstract public class TransmitBase extends TotalBase {
 	public boolean isConnected() {
 		return socket.isConnected();
 	}
-	
 
 	/**
 	 * ファイルの中身を空にします。
@@ -47,11 +56,12 @@ abstract public class TransmitBase extends TotalBase {
 			socket.close();
 			stackTrace();
 		}
-
+		
+		StoreData.PORT++;
 		System.out.println("CLOSE");
 	}
 	
-	
+
 //	/**
 //	 * JSON形式でファイル出力します。
 //	 * @param filePath ファイルのパス
@@ -89,12 +99,12 @@ abstract public class TransmitBase extends TotalBase {
 //}
 
 	
-	/**
-	 * JSON形式のファイルを読み込みます。
-	 * @param filePath ファイルのパス
-	 * @return 読み込んだリスト
-	 * @throws Exception エラー
-	 */
+//	/**
+//	 * JSON形式のファイルを読み込みます。
+//	 * @param filePath ファイルのパス
+//	 * @return 読み込んだリスト
+//	 * @throws Exception エラー
+//	 */
 //	public ArrayList<JsonType> readFile(String filePath) throws Exception {
 //		stackTrace();
 //		ArrayList<JsonType> list = readObject();
@@ -103,12 +113,12 @@ abstract public class TransmitBase extends TotalBase {
 //		return list;
 //	}
 	
-	/**
-	 * オブジェクトを書き込みます。
-	 * 引数にはObject型を基底クラスとするインスタンスでなくてはなりません。
-	 * @param obj 基底クラスをObject型とするインスタンス
-	 * @throws IOException 入出力エラー
-	 */
+//	/**
+//	 * オブジェクトを書き込みます。
+//	 * 引数にはObject型を基底クラスとするインスタンスでなくてはなりません。
+//	 * @param obj 基底クラスをObject型とするインスタンス
+//	 * @throws IOException 入出力エラー
+//	 */
 //	public <T> void writeObject(T obj) throws IOException {
 //		if (obj == null)	return;
 //		
@@ -119,16 +129,16 @@ abstract public class TransmitBase extends TotalBase {
 //		}
 //	}
 	
-	/**
-	 * オブジェクトを読み込みます。
-	 * @return 基底クラスをObject型とするインスタンス
-	 * @throws Exception 通信エラー
-	 */
+//	/**
+//	 * オブジェクトを読み込みます。
+//	 * @return 基底クラスをObject型とするインスタンス
+//	 * @throws Exception 通信エラー
+//	 */
 //	@SuppressWarnings("unchecked")
 //	public <T> T readObject() throws Exception {
 //		stackTrace();
 //		return (T)ois.readObject();
 //	}
-	
+
 
 }

@@ -27,7 +27,7 @@ abstract public class ControllerBase extends TotalBase {
 	protected Rectangle r = null;
 	protected int mapFrag = 0;
 	
-	protected int[] coordinate = new int[3];
+	protected ArrayList<Integer> coordinate = new ArrayList<>();
 	
 	@FXML abstract public void handleMouseAction(MouseEvent event) throws Exception;
 	@FXML abstract public void handleButtonAction(ActionEvent event) throws Exception;
@@ -42,16 +42,25 @@ abstract public class ControllerBase extends TotalBase {
 			root_map = _root_map;
 	}
 	
-	public String stringMapEventAgent(MouseEvent event) {
-		return (mapFrag + ":" + (int)event.getX() + ":" + (int)event.getY());
+	public String stringMapEventAgent(String kind, int map, int x, int y) {
+		return (kind + ":" + map + ":" + x + ":" + y);
 	}
 	
-	public void mapPainter() {
-//		stackTrace(root_map.getWidth());
-		
+	/**
+	 * マップにアイコンを描画します。<br>
+	 * ReceiveModel.dataには、そのデータが自身のアプリケーションで行われたアクションであるか<br>
+	 * リモートで送信されてきた情報であるかを判別するためのデータも含まれているため、<br>
+	 * それを分別しています。
+	 * @param w アイコンの横幅
+	 * @param h	アイコンの縦幅
+	 */
+	public void mapPainter(int w, int h) {
 		if (ReceiveModel.isUpdated) {
-			coordinate = parseIntArray(stringSeparator(ReceiveModel.data, coordinate.length, ":"));
-			drawFigure(coordinate[0], coordinate[1], coordinate[2]);
+			ArrayList<String> list = stringSeparator(ReceiveModel.data, ":");
+			String kind = list.get(0);
+			list.remove(0);
+			coordinate = parseIntList(list);
+			drawFigure(kind, coordinate.get(0), coordinate.get(1), coordinate.get(2), w, h);
 			ReceiveModel.isUpdated = false;
 		}
 	}
@@ -62,19 +71,36 @@ abstract public class ControllerBase extends TotalBase {
 	 * @param x X座標
 	 * @param y Y座標
 	 */
-	public void drawFigure(int id, double x, double y) {
+	public void drawFigure(String kind, int id, double _x, double _y, int w, int h) {
+		int x = (int)_x;
+		int y = (int)_y;
+		
+		final int MAG = StoreData.MAP_MAGNIFICATION;
+		
+		switch (kind) {
+		case StoreData.REMOTE_SERVER:
+			ReceiveModel.sendData = stringMapEventAgent(StoreData.LOCAL, id, x, y);
+			x *= MAG;
+			y *= MAG;
+			break;
+		case StoreData.REMOTE_CLIENT:
+			x /= MAG;
+			y /= MAG;
+			break;
+		}
+		
 		stackTrace(id + " " + x + " " + y);
 		
-		ArrayList<int[]> item = ReceiveModel.mapItem;
-		final int HALF_AREA = StoreData.MAP_ITEM_SIZE /2;
+		final int HALF_AREA = StoreData.DEFAULT_MAP_ITEM_SIZE /2;
 		boolean xJudge, yJudge;
+		ArrayList<int[]> item = ReceiveModel.mapItem;
 		
-		int[] pointer = {(int)x, (int)y};
+		int[] pointer = {id, x, y};
 		if (id != 4) {
 			item.add(pointer);
 		}
 		
-		r = new Rectangle(StoreData.MAP_ITEM_SIZE, StoreData.MAP_ITEM_SIZE);
+		r = new Rectangle(w, h);
 		r.setX(x - r.getWidth()/2);
 		r.setY(y - r.getHeight()/2);
 		switch (id) {
@@ -90,10 +116,10 @@ abstract public class ControllerBase extends TotalBase {
 			r.setFill(Color.LIGHTGREEN);
 			root_map.getChildren().add(r);
 			break;
-		default :
+		case 4:
 			for (int i = 0; i < item.size(); i++) {
-				xJudge = ((item.get(i)[0] + HALF_AREA) > x) && ((item.get(i)[0] - HALF_AREA) < x);
-				yJudge = ((item.get(i)[1] + HALF_AREA) > y) && ((item.get(i)[1] - HALF_AREA) < y);
+				xJudge = ((item.get(i)[1] + HALF_AREA) > x) && ((item.get(i)[1] - HALF_AREA) < x);
+				yJudge = ((item.get(i)[2] + HALF_AREA) > y) && ((item.get(i)[2] - HALF_AREA) < y);
 				
 				if (xJudge && yJudge){
 					item.remove(i);

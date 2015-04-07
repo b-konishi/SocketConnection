@@ -1,33 +1,40 @@
 package konishi.java.socketconnection.base;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 
 public class TotalBase {
 	
-	/**
-	 * :文字で区切られた文字を分割する
-	 * @param str
-	 * @return
-	 */
-	public String[] stringSeparator(String str, int num, String key) {
-		
-		String[] data = new String[num];
 
+	/**
+	 * 文字列をkeyで分割し、リストに保存します。
+	 * @param str 対象となる文字列
+	 * @param key 分割するキーとなる文字列
+	 * @return ArrayList型の文字列リスト
+	 */
+	public ArrayList<String> stringSeparator(String str, String key) {
+		
+		ArrayList<String> data = new ArrayList<>();
+		
         StringTokenizer st = new StringTokenizer(str , key);
 
         while (st.hasMoreTokens()) {
-            data[data.length - st.countTokens()] = st.nextToken();
+        	data.add(st.nextToken());
         }
-        
         return data;
 	}
 	
-	public int[] parseIntArray(String[] str) {
-		int[] data = new int[str.length];
+	/**
+	 * String型のリストをInteger型のリストに変換します。
+	 * @param list 文字列リスト
+	 * @return 数値リスト
+	 */
+	public ArrayList<Integer> parseIntList(ArrayList<String> list) {
+		ArrayList<Integer> data = new ArrayList<>();
 		
-		for (int i = 0; i < str.length; i++) {
-			data[i] = Integer.parseInt(str[i]);
+		for (int i = 0; i < list.size(); i++) {
+			data.add(Integer.parseInt(list.get(i)));
 		}
 		return data;
 	}
