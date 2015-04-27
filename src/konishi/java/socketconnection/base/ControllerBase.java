@@ -74,14 +74,30 @@ abstract public class ControllerBase extends TotalBase {
 	public void drawFigure(String kind, int id, double _x, double _y, int w, int h) {
 		int x = (int)_x;
 		int y = (int)_y;
-		
+				
 		final int MAG = StoreData.MAP_MAGNIFICATION;
+		
+		// 'server'から始まる文字列かどうかを確認
+		Pattern p = Pattern.compile("([a-z]+)([0-9]+)");
+		Matcher m = p.matcher(kind);
+		if (m.find()) {
+			if (m.group(1).equals(StoreData.REMOTE_CLIENT)) {
+				if (StoreData.CLIENT_PORT.equals(m.group(2))) {
+					stackTrace();
+					return;
+				}
+			} else if (m.group(1).equals(StoreData.REMOTE_SERVER)) {
+				kind = StoreData.REMOTE_SERVER;
+			}
+		}
 		
 		switch (kind) {
 		case StoreData.REMOTE_SERVER:
-			ReceiveModel.sendData = stringMapEventAgent(StoreData.LOCAL, id, x, y);
 			x *= MAG;
 			y *= MAG;
+			
+			ReceiveModel.sendData = stringMapEventAgent(StoreData.REMOTE_CLIENT + m.group(2), id, x, y);
+			
 			break;
 		case StoreData.REMOTE_CLIENT:
 			x /= MAG;
@@ -127,7 +143,7 @@ abstract public class ControllerBase extends TotalBase {
 						root_map.getChildren().remove(i+1);
 					} catch (IndexOutOfBoundsException e) {}
 					break;
-				}	
+				}
 			}
 			break;
 		}

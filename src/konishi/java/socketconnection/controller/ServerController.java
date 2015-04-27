@@ -90,7 +90,6 @@ public class ServerController extends ControllerBase {
 		server = new TransmitServer();
 		stackTrace();
 		setRootMap(root_map);
-//		server.clearFile(MAP_FILE);
 		
 		ip_adress.setText(server.getPort());
 	}

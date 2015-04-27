@@ -45,6 +45,7 @@ public class TransmitClient extends TransmitBase implements Runnable {
 	@Override
 	public void run() {
 		String data;
+		StoreData.CLIENT_PORT = getPort();
 		
 		try {
 			while ((data = in.readLine()) != null) {

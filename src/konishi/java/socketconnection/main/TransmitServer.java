@@ -38,7 +38,7 @@ public class TransmitServer extends TransmitBase {
 					errorStackTrace(e);
 				}
 			}
-		}).start();		
+		}).start();
 	}
 	
 	public void setup() throws Exception {

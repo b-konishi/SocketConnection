@@ -8,6 +8,9 @@ package konishi.java.socketconnection.model;
  */
 public class StoreData {
 	public static int PORT = 8000;
+	
+	public static String CLIENT_PORT;
+	
 	/**
 	 * ファイルのディレクトリを指定します。<br>
 	 * 各PCによって変更してください。

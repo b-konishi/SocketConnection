@@ -63,13 +63,9 @@ public class ClientController extends ControllerBase {
 	
 	@FXML public TextField input_server_adress;
 	
-//	private static final String MAP_FILE = StoreData.CLIENT_MAP_FILE;
-	
 	private static final int CLIENT_MAP_ITEM_SIZE = StoreData.DEFAULT_MAP_ITEM_SIZE / StoreData.MAP_MAGNIFICATION;
 	
 	private TransmitClient client = null;
-	
-	
 	
 	public void initialize() {
 		
@@ -93,7 +89,6 @@ public class ClientController extends ControllerBase {
 		client = new TransmitClient();
 		
 		setRootMap(root_map);
-//		client.clearFile(MAP_FILE);
 		
 		ip_adress.setText(client.getPort());
 	}
@@ -121,7 +116,7 @@ public class ClientController extends ControllerBase {
 	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
 		if (mapFrag != 0) {
 			ReceiveModel.data = stringMapEventAgent(StoreData.LOCAL, mapFrag, (int)event.getX(), (int)event.getY());
-			ReceiveModel.sendData = stringMapEventAgent(StoreData.REMOTE_SERVER, mapFrag, (int)event.getX(), (int)event.getY());
+			ReceiveModel.sendData = stringMapEventAgent(StoreData.REMOTE_SERVER + client.getPort(), mapFrag, (int)event.getX(), (int)event.getY());
 			client.write(ReceiveModel.sendData);
 			ReceiveModel.isUpdated = true;
 		}
