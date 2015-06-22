@@ -58,7 +58,7 @@ abstract public class TransmitBase extends TotalBase {
 		}
 		
 		StoreData.PORT++;
-		System.out.println("CLOSE");
+		stackTrace("CLOSE");
 	}
 	
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
@@ -17,15 +18,15 @@
          <children>
             <HBox alignment="CENTER" layoutX="21.0" layoutY="26.0" prefHeight="25.0" prefWidth="939.0">
                <children>
-                  <Label alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="25.0" prefWidth="57.0" text="1号機" />
+                  <Label fx:id="machine_number" alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="25.0" prefWidth="57.0" text="1号機" />
                   <Button fx:id="shutdown_button" layoutX="89.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="133.0" text="SystemShutdown" />
                   <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="45.0" />
                   <TextField fx:id="input_server_adress" onKeyPressed="#handleKeyAction" promptText="サーバーIP Adress" />
                   <Label fx:id="emergency_stop_signal" alignment="CENTER" contentDisplay="RIGHT" prefHeight="25.0" textAlignment="CENTER" />
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="270.0" spacing="10.0">
                      <children>
-                        <Button fx:id="connection_button" mnemonicParsing="false" onAction="#handleButtonAction" text="NotConnection" />
-                        <Button fx:id="disconnection_button" mnemonicParsing="false" onAction="#handleButtonAction" text="Disconnection" />
+                        <Button fx:id="connection_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="100.0" text="接続" />
+                        <Button fx:id="disconnection_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="100.0" text="切断" />
                      </children>
                   </HBox>
                   <HBox>
@@ -49,14 +50,14 @@
                      <children>
                         <HBox alignment="CENTER" layoutX="13.0" layoutY="61.0" prefHeight="300.0" prefWidth="500.0">
                            <children>
-                              <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="40.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="camera_image" fitHeight="300.0" fitWidth="300.0" layoutX="40.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../image/camera.png" />
+                                    <Image url="@../../../../../image/notFile.png" />
                                  </image>
                               </ImageView>
                               <VBox alignment="CENTER" layoutX="203.0" layoutY="70.0" prefHeight="330.0" prefWidth="120.0" spacing="50.0">
                                  <children>
-                                    <Button fx:id="front_camera_button" layoutX="185.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="front" />
+                                    <Button fx:id="front_camera_button" layoutX="185.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="送信画像選択" />
                                     <Button fx:id="back_camera_button" layoutX="184.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text=" back" />
                                     <Button fx:id="arm_camera_button" layoutX="184.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="arm" />
                                  </children>
@@ -83,66 +84,118 @@
                   </VBox>
                   <VBox alignment="CENTER" layoutX="491.0" layoutY="73.0" spacing="30.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="300.0" prefWidth="500.0">
+                        <AnchorPane>
                            <children>
-                              <AnchorPane fx:id="root_map" onMouseClicked="#handleMouseAction">
+                              <AnchorPane fx:id="root_map" layoutX="40.0" onMouseClicked="#handleMouseAction" prefHeight="300.0" prefWidth="300.0">
                                  <children>
                                     <ImageView fitHeight="300.0" fitWidth="300.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../image/map.png" />
+                                          <Image url="@../../../../../image/map1.jpeg" />
                                        </image>
                                     </ImageView>
                                  </children>
                               </AnchorPane>
-                              <VBox alignment="CENTER" prefHeight="330.0" prefWidth="120.0" spacing="50.0">
+                              <VBox alignment="CENTER" layoutX="380.0" spacing="10.0">
                                  <children>
-                                    <Button fx:id="robot_map_button" layoutX="420.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ロボット" />
-                                    <Button fx:id="rubble_map_button" layoutX="338.0" layoutY="208.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ガレキ" />
-                                    <Button fx:id="doll_map_button" layoutX="511.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ダミヤン" />
+                                    <ImageView fx:id="robot_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../image/rescue.gif" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="doll_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../image/doll.gif" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="rubble1_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../image/rubble1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="rubble2_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../image/rubble2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="dust_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../image/dust.png" />
+                                       </image>
+                                    </ImageView>
                                  </children>
                               </VBox>
                            </children>
-                        </HBox>
-                        <Group>
+                        </AnchorPane>
+                        <HBox>
                            <children>
-                              <HBox alignment="CENTER" layoutX="664.0" layoutY="615.0" prefHeight="25.0" prefWidth="267.0">
+                              <VBox>
                                  <children>
-                                    <TextField layoutX="419.0" layoutY="359.0" prefHeight="25.0" prefWidth="217.0" promptText="送信メッセージ" />
-                                    <Button fx:id="submit_button" layoutX="541.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="送信" />
-                                 </children>
-                              </HBox>
-                              <HBox layoutX="490.0" layoutY="394.0" prefHeight="184.0" prefWidth="452.0">
-                                 <children>
-                                    <Label alignment="CENTER" layoutX="303.0" layoutY="256.0" prefHeight="25.0" prefWidth="174.0" text="受信情報 →" />
-                                    <HBox alignment="CENTER" prefHeight="184.0" prefWidth="272.0">
+                                    <GridPane prefHeight="200.0" prefWidth="200.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
                                        <children>
-                                          <VBox alignment="CENTER" spacing="20.0">
+                                          <Rectangle fx:id="grid00_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" />
+                                          <Rectangle fx:id="grid01_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" />
+                                          <Rectangle fx:id="grid02_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" />
+                                          <Rectangle fx:id="grid10_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid11_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid12_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid20_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid21_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid22_rect" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <Pane prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="grid_send_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="200.0" text="送信" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                              <Group>
+                                 <children>
+                                    <HBox alignment="CENTER" layoutX="493.0" layoutY="611.0" prefHeight="25.0" prefWidth="267.0">
+                                       <children>
+                                          <TextField layoutX="419.0" layoutY="359.0" prefHeight="25.0" prefWidth="217.0" promptText="送信メッセージ" />
+                                          <Button fx:id="submit_button" layoutX="541.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="送信" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="490.0" layoutY="394.0" prefHeight="184.0" prefWidth="269.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="184.0" prefWidth="272.0">
                                              <children>
-                                                <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="体重:" />
-                                                <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="色情報" />
-                                                <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="Label" />
-                                                <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="Label" />
+                                                <VBox alignment="CENTER" spacing="20.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="体重:" />
+                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="色情報" />
+                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="Label" />
+                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="Label" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="184.0" prefWidth="186.0" spacing="20.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
+                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
+                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
+                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
+                                                   </children>
+                                                </VBox>
                                              </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" prefHeight="184.0" prefWidth="186.0" spacing="20.0">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                                <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                                <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                                <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                             </children>
-                                          </VBox>
+                                          </HBox>
                                        </children>
                                     </HBox>
                                  </children>
-                              </HBox>
-                              <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="456.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../image/body.png" />
-                                 </image>
-                              </ImageView>
+                              </Group>
                            </children>
-                        </Group>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

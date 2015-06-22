@@ -17,19 +17,40 @@
             <content>
               <AnchorPane>
                      <children>
-                        <VBox alignment="CENTER" layoutX="769.0" layoutY="11.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" layoutX="769.0" layoutY="11.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="robot_map_button" layoutX="820.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ロボット" />
-                              <Button fx:id="rubble_map_button" layoutX="828.0" layoutY="239.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ガレキ" />
-                              <Button fx:id="doll_map_button" layoutX="833.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="ダミヤン" />
-                              <Button fx:id="dust_map_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="0.0" prefWidth="100.0" text="ゴミ箱" />
+                              <ImageView fx:id="robot_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../image/rescue.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="doll_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../image/doll.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="rubble1_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../image/rubble1.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="rubble2_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../image/rubble2.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="dust_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../image/dust.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </VBox>
-                        <AnchorPane fx:id="root_map" layoutX="119.0" layoutY="11.0" onMouseClicked="#handleMouseAction">
+                        <AnchorPane fx:id="root_map" layoutX="113.0" layoutY="20.0" onMouseClicked="#handleMouseAction" prefHeight="600.0" prefWidth="600.0">
                            <children>
                               <ImageView fx:id="map_image" fitHeight="600.0" fitWidth="600.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../image/map.png" />
+                                    <Image url="@../../../../../image/map1.jpeg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -147,28 +168,100 @@
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" layoutX="41.0" layoutY="337.0" prefHeight="50.0" prefWidth="900.0" spacing="90.0">
+                              <HBox alignment="CENTER" layoutX="41.0" layoutY="337.0" prefHeight="200.0" prefWidth="1000.0" spacing="40.0">
                                  <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../image/body.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../image/body.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../image/body.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../../image/body.png" />
-                                       </image>
-                                    </ImageView>
+                                    <GridPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Rectangle fx:id="grid00_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" />
+                                          <Rectangle fx:id="grid01_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" />
+                                          <Rectangle fx:id="grid02_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" />
+                                          <Rectangle fx:id="grid10_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid11_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid12_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid20_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid21_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid22_rect1" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                    <GridPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Rectangle fx:id="grid00_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" />
+                                          <Rectangle fx:id="grid01_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" />
+                                          <Rectangle fx:id="grid02_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" />
+                                          <Rectangle fx:id="grid10_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid11_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid12_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid20_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid21_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid22_rect2" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                    <GridPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Rectangle fx:id="grid00_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" />
+                                          <Rectangle fx:id="grid01_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" />
+                                          <Rectangle fx:id="grid02_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" />
+                                          <Rectangle fx:id="grid10_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid11_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid12_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid20_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid21_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid22_rect3" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                    <GridPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Rectangle fx:id="grid00_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" />
+                                          <Rectangle fx:id="grid01_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" />
+                                          <Rectangle fx:id="grid02_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" />
+                                          <Rectangle fx:id="grid10_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid11_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid12_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Rectangle fx:id="grid20_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid21_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="grid22_rect4" arcHeight="5.0" arcWidth="5.0" fill="#7ed2fc" height="67.0" onMouseClicked="#handleMouseAction" stroke="BLACK" strokeType="INSIDE" width="67.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" layoutX="35.0" layoutY="414.0" prefHeight="50.0" prefWidth="900.0" spacing="40.0">
@@ -227,6 +320,58 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="receive_image_tab1" text="受信画像1">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <ImageView fx:id="receive_image1" fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../image/notFile.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="receive_image_tab2" text="受信画像2">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <ImageView fx:id="receive_image2" fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../image/notFile.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="receive_image_tab3" text="受信画像3">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <ImageView fx:id="receive_image3" fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../image/notFile.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="receive_image_tab4" text="受信画像4">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <ImageView fx:id="receive_image4" fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../image/notFile.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
       <HBox alignment="CENTER" layoutX="21.0" layoutY="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
@@ -253,8 +398,8 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="281.0" spacing="30.0">
                <children>
-                  <Button fx:id="connection_button" layoutX="682.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" text="NotConnection" />
-                  <Button fx:id="disconnection_button" layoutX="806.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Disconnection" />
+                  <Button fx:id="connection_button" layoutX="682.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="接続" />
+                  <Button fx:id="disconnection_button" layoutX="806.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="切断" />
                </children>
             </HBox>
          </children>

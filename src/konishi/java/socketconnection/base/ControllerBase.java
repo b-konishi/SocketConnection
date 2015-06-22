@@ -1,15 +1,15 @@
 package konishi.java.socketconnection.base;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
 
@@ -24,10 +24,16 @@ abstract public class ControllerBase extends TotalBase {
 	@FXML public AnchorPane root_map;
 	
 	protected Thread update = null;
-	protected Rectangle r = null;
 	protected int mapFrag = 0;
 	
+	protected String[] imageName = {"rescue.gif", "doll.gif", "rubble1.png", "rubble2.png"};
+	protected ImageView image = null;
+	
 	protected ArrayList<Integer> coordinate = new ArrayList<>();
+	
+	protected int clientValue = 0;
+	
+	protected int swing = 1;
 	
 	@FXML abstract public void handleMouseAction(MouseEvent event) throws Exception;
 	@FXML abstract public void handleButtonAction(ActionEvent event) throws Exception;
@@ -57,6 +63,7 @@ abstract public class ControllerBase extends TotalBase {
 	public void mapPainter(int w, int h) {
 		if (ReceiveModel.isUpdated) {
 			ArrayList<String> list = stringSeparator(ReceiveModel.data, ":");
+			
 			String kind = list.get(0);
 			list.remove(0);
 			coordinate = parseIntList(list);
@@ -72,83 +79,96 @@ abstract public class ControllerBase extends TotalBase {
 	 * @param y Y座標
 	 */
 	public void drawFigure(String kind, int id, double _x, double _y, int w, int h) {
+		
+		if(id != 5) {
+			image = new ImageView("image/"+imageName[id-1]);
+				if (!StoreData.LOCAL.equals(StoreData.SERVER)) {
+					image.setFitWidth(StoreData.CLIENT_ICON_SIZE);
+					image.setFitHeight(StoreData.CLIENT_ICON_SIZE);
+				} else {
+					image.setFitWidth(StoreData.SERVER_ICON_SIZE);
+					image.setFitHeight(StoreData.SERVER_ICON_SIZE);
+				}
+		}
+		
 		int x = (int)_x;
 		int y = (int)_y;
 				
 		final int MAG = StoreData.MAP_MAGNIFICATION;
 		
-		// 'server'から始まる文字列かどうかを確認
-		Pattern p = Pattern.compile("([a-z]+)([0-9]+)");
-		Matcher m = p.matcher(kind);
-		if (m.find()) {
-			if (m.group(1).equals(StoreData.REMOTE_CLIENT)) {
-				if (StoreData.CLIENT_PORT.equals(m.group(2))) {
-					stackTrace();
-					return;
-				}
-			} else if (m.group(1).equals(StoreData.REMOTE_SERVER)) {
-				kind = StoreData.REMOTE_SERVER;
+		if (StoreData.LOCAL.equals(StoreData.SERVER)) {
+			if (!kind.equals("0000")) {
+				x *= MAG;
+				y *= MAG;
 			}
-		}
-		
-		switch (kind) {
-		case StoreData.REMOTE_SERVER:
-			x *= MAG;
-			y *= MAG;
-			
-			ReceiveModel.sendData = stringMapEventAgent(StoreData.REMOTE_CLIENT + m.group(2), id, x, y);
-			
-			break;
-		case StoreData.REMOTE_CLIENT:
-			x /= MAG;
-			y /= MAG;
-			break;
+		} else {
+			if (kind.equals("0000")) {
+				x /= MAG;
+				y /= MAG;
+			} else if (("_"+StoreData.CLIENT_PORT).equals(kind)) {
+				return;
+			}
 		}
 		
 		stackTrace(id + " " + x + " " + y);
 		
 		final int HALF_AREA = StoreData.DEFAULT_MAP_ITEM_SIZE /2;
-		boolean xJudge, yJudge;
 		ArrayList<int[]> item = ReceiveModel.mapItem;
 		
 		int[] pointer = {id, x, y};
-		if (id != 4) {
+		if (id != 5)
 			item.add(pointer);
-		}
 		
-		r = new Rectangle(w, h);
-		r.setX(x - r.getWidth()/2);
-		r.setY(y - r.getHeight()/2);
 		switch (id) {
 		case 1:
-			r.setFill(Color.RED);
-			root_map.getChildren().add(r);
-			break;
 		case 2:
-			r.setFill(Color.BLACK);
-			root_map.getChildren().add(r);
-			break;
 		case 3:
-			r.setFill(Color.LIGHTGREEN);
-			root_map.getChildren().add(r);
-			break;
 		case 4:
+			image.setX(x - image.getFitWidth()/2);
+			image.setY(y - image.getFitHeight()/2);
+			root_map.getChildren().add(image);
+			break;
+		case 5:
+			boolean xJudge, yJudge;
 			for (int i = 0; i < item.size(); i++) {
 				xJudge = ((item.get(i)[1] + HALF_AREA) > x) && ((item.get(i)[1] - HALF_AREA) < x);
 				yJudge = ((item.get(i)[2] + HALF_AREA) > y) && ((item.get(i)[2] - HALF_AREA) < y);
 				
-				if (xJudge && yJudge){
+				if (xJudge && yJudge) {
 					item.remove(i);
 					try {
+						stackTrace("erase");
 						root_map.getChildren().remove(i+1);
-					} catch (IndexOutOfBoundsException e) {}
+					} catch (IndexOutOfBoundsException e) {
+						e.printStackTrace();
+					}
 					break;
 				}
 			}
 			break;
 		}
 		ReceiveModel.mapItem = item;
-		
+	}
+	
+	/**
+	 * iconが現在選択中であるかないかをiconの明暗によって区別します。
+	 * @param image クリックしたicon
+	 * @param flag 現在のmapFrag
+	 */
+	protected void iconOpacity(ImageView image, int flag) {
+		boolean reverse = false;
+		ImageView[] imageViews = new ImageView[ReceiveModel.imageViews.length];
+		for (int i = 0; i < imageViews.length; i++) {
+			imageViews[i] = ReceiveModel.imageViews[i];
+		}
+		for (int i = 0; i < imageViews.length; i++) {
+			imageViews[i].setOpacity(1);
+			if (imageViews[i] == image && i+1 == flag) {
+				reverse = true;
+			}
+		}
+		if (!reverse)
+			image.setOpacity(0.5);
 	}
 	
 	/**
@@ -163,6 +183,12 @@ abstract public class ControllerBase extends TotalBase {
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(eventString);
 		if(m.find()) idName = m.group(1);
+		
+		StringTokenizer st = new StringTokenizer(idName, ",");
+		if (st.hasMoreTokens())
+			idName = st.nextToken();
+		if (idName.endsWith("]"))
+			idName = idName.replace("]", "");
 		
 		return idName;
 	}
@@ -199,6 +225,23 @@ abstract public class ControllerBase extends TotalBase {
 ////		System.out.println("convertCoordinate");
 ////		System.out.println(map.itemX + "  " + map.itemY);
 //		drawFigure(map.itemID, map.itemX, map.itemY);
+//	}
+	
+	/**
+	 * 乱数生成機です。
+	 * 前回と同じ値を出力しません。
+	 * @return 乱数
+	 */
+//	protected int notSameNumberGenerator() {
+//		int clientValue = 0;
+//		int diffSwing, beforeDiffSwing = 100;
+//		
+//		diffSwing = (new Random().nextInt(3))-1;
+//		if (diffSwing == beforeDiffSwing) {
+//			diffSwing = notSameNumberGenerator();
+//		}
+//		beforeDiffSwing = diffSwing;
+//		return diffSwing;
 //	}
 	
 }

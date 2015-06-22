@@ -1,8 +1,9 @@
 package konishi.java.socketconnection.main;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -74,8 +75,10 @@ public class TransmitServer extends TransmitBase {
 	 *
 	 */
 	class MultiThreadManager extends Thread {
-		Socket socket;
-		String data_tmp, data;
+		private Socket socket;
+		private String data_str, data;
+		private int data_tmp;
+		private StringBuilder sb = new StringBuilder();
 		
 		/**
 		 * 自分が何番目のクライアントかを記録します。<br>
@@ -84,7 +87,8 @@ public class TransmitServer extends TransmitBase {
 		int clientOrder;
 		
 		PrintWriter out;
-		BufferedReader in;
+		InputStreamReader in;
+		ObjectInputStream ois;
 		
 		public MultiThreadManager(Socket _socket) throws Exception {
 			socket = _socket;
@@ -94,7 +98,8 @@ public class TransmitServer extends TransmitBase {
 			
 			stackTrace(ReceiveModel.clientValue + "台目: " + socket.getRemoteSocketAddress() + "が接続されました");
 			
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			ois = new ObjectInputStream(socket.getInputStream());
+			in = new InputStreamReader(ois);
 			out = new PrintWriter(socket.getOutputStream(), true);
 		}
 
@@ -104,17 +109,40 @@ public class TransmitServer extends TransmitBase {
 			Thread readThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					try {
-						while ((data_tmp = in.readLine()) != null) {
-							if (data_tmp.equals("CLOSE")) {
+					while (!ReceiveModel.emergencyStopSignal) {
+						try {
+							while ((data_tmp = in.read()) != 10 && data_tmp != -1) {
+								sb.append((char)data_tmp);
+							}
+							data_str = new String(sb);
+							sb.setLength(0);
+							if (data_str.equals("CLOSE")) {
 								stackTrace();
 								closeTransport();
-							} else {
-								ReceiveModel.data = data_tmp;
+							} else if (data_str.startsWith("IMAGE")) {
+								ReceiveModel.image = (File) ois.readObject();
+								stackTrace("image");
+								ReceiveModel.newImageMachineNumber = data_str.substring(6);
+								ReceiveModel.isSendedImage = true;
+								data_str = "";
+							} else if (data_str.startsWith("GRID")) {
+								ReceiveModel.newImageMachineNumber = data_str.substring(5);
+								ReceiveModel.gridData = (String)ois.readObject();
+								ReceiveModel.isSendedGrid = true;
+							} else if (!data_str.equals("")) {
+								StringBuilder sb = new StringBuilder();
+								sb.append(data_str);
+								sb.insert(0, "_");
+								ReceiveModel.data = new String(sb);
+								stackTrace(data);
 								ReceiveModel.isUpdated = true;
+							} else {
 							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-					} catch (Exception e) {}
+					}
 					stackTrace("スレッド終了");
 				}
 			});
@@ -138,14 +166,26 @@ public class TransmitServer extends TransmitBase {
 					ReceiveModel.clientValue--;
 					break;
 				}
-				stackTrace(ReceiveModel.data + " " + ReceiveModel.sendData);
-				if ((ReceiveModel.sendData != null && data == null) || (ReceiveModel.sendData != null && !data.equals(ReceiveModel.sendData))) {
-					if (data == null)
-					stackTrace();
-					data = ReceiveModel.sendData;
-					stackTrace();
+//				stackTrace(ReceiveModel.data);
+				if (data != null && ReceiveModel.data != null) {
+					if (!ReceiveModel.data.equals(data)) {
+						data = ReceiveModel.data;
+						stackTrace(data);
+						out.println(data);
+					}
+				} else if (data == null && ReceiveModel.data != null) {
+					data = ReceiveModel.data;
+					stackTrace(data);
 					out.println(data);
 				}
+				
+//				if ((ReceiveModel.sendData != null && data == null) || (ReceiveModel.sendData != null && !data.equals(ReceiveModel.sendData))) {
+//					if (data == null)
+//					stackTrace();
+//					data = ReceiveModel.sendData;
+//					stackTrace();
+//					out.println(data);
+//				}
 			}
 			stackTrace("スレッド終了");
 		}
