@@ -26,7 +26,7 @@
                               </ImageView>
                               <ImageView fx:id="doll_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../image/doll.gif" />
+                                    <Image url="@../../../../../image/doll.png" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="rubble1_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
@@ -36,7 +36,7 @@
                               </ImageView>
                               <ImageView fx:id="rubble2_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../image/rubble2.png" />
+                                    <Image url="@../../../../../image/house.png" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="dust_map_button" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
@@ -62,7 +62,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="1200.0">
                      <children>
-                        <VBox alignment="CENTER" spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <HBox alignment="CENTER" prefHeight="50.0" prefWidth="900.0" spacing="40.0">
                                  <children>
@@ -144,28 +144,80 @@
                                     </HBox>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="900.0" spacing="40.0">
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="900.0" spacing="90.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="200.0" text="1号機Battery" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="200.0" text="2号機Battery" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="200.0" text="3号機Battery" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="200.0" text="4号機Battery" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="weight1_label" alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="100.0" text="1号機Weight" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
+                                          <Label fx:id="weight1_label1" alignment="CENTER" prefHeight="36.0" prefWidth="50.0" text="kg" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="weight2_label" alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="100.0" text="2号機Weight" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                          <Label fx:id="weight1_label11" alignment="CENTER" prefHeight="150.0" prefWidth="50.0" text="kg" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="weight3_label" alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="100.0" text="3号機Weight" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                          <Label fx:id="weight1_label12" alignment="CENTER" prefHeight="150.0" prefWidth="50.0" text="kg" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="weight4_label" alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="100.0" text="4号機Weight" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="weight1_label13" alignment="CENTER" prefHeight="150.0" prefWidth="50.0" text="kg" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="41.0" layoutY="266.0" prefHeight="50.0" prefWidth="900.0" spacing="40.0">
+                                 <children>
+                                    <Label fx:id="color1_label" alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="200.0" text="1号機Color" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
+                                    <Label fx:id="color2_label" alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="200.0" text="2号機Color" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                    <Label fx:id="color3_label" alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="200.0" text="3号機Color" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                    <Label fx:id="color4_label" alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="200.0" text="4号機Color" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" layoutX="41.0" layoutY="266.0" prefHeight="50.0" prefWidth="900.0" spacing="40.0">
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="900.0" spacing="95.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="200.0" text="1号機Weight" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="200.0" text="2号機Weight" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="200.0" text="3号機Weight" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="200.0" text="4号機Weight" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="frequency1_label" alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="100.0" text="1号機Frequency" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
+                                          <Label fx:id="weight1_label14" alignment="CENTER" prefHeight="36.0" prefWidth="50.0" text="Hz" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="frequency2_label" alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="100.0" text="2号機Frequency" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                          <Label fx:id="weight1_label141" alignment="CENTER" prefHeight="36.0" prefWidth="50.0" text="Hz" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="frequency3_label" alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="100.0" text="3号機Frequency" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                          <Label fx:id="weight1_label142" alignment="CENTER" prefHeight="36.0" prefWidth="50.0" text="Hz" />
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label fx:id="frequency4_label" alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="100.0" text="4号機Frequency" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="weight1_label143" alignment="CENTER" prefHeight="36.0" prefWidth="50.0" text="Hz" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" layoutX="41.0" layoutY="337.0" prefHeight="200.0" prefWidth="1000.0" spacing="40.0">
@@ -266,10 +318,10 @@
                               </HBox>
                               <HBox alignment="CENTER" layoutX="35.0" layoutY="414.0" prefHeight="50.0" prefWidth="900.0" spacing="40.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="200.0" text="Message From 1号機" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="200.0" text="Message From 2号機" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="200.0" text="Message From 3号機" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
-                                    <Label alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="200.0" text="Message From 4号機" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+                                    <Label fx:id="message1_label" alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="150.0" prefWidth="200.0" text="Message From 1号機" textFill="RED" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
+                                    <Label fx:id="message2_label" alignment="CENTER" layoutX="337.0" layoutY="134.0" prefHeight="150.0" prefWidth="200.0" text="Message From 2号機" textFill="RED" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                    <Label fx:id="message3_label" alignment="CENTER" layoutX="621.0" layoutY="140.0" prefHeight="150.0" prefWidth="200.0" text="Message From 3号機" textFill="RED" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="100.0" />
+                                    <Label fx:id="message4_label" alignment="CENTER" layoutX="923.0" layoutY="142.0" prefHeight="150.0" prefWidth="200.0" text="Message From 4号機" textFill="RED" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>

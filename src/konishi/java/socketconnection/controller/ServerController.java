@@ -104,6 +104,24 @@ public class ServerController extends ControllerBase {
 	@FXML public Rectangle grid21_rect4;
 	@FXML public Rectangle grid22_rect4;
 	
+	@FXML public Label weight1_label;
+	@FXML public Label weight2_label;
+	@FXML public Label weight3_label;
+	@FXML public Label weight4_label;
+	@FXML public Label color1_label;
+	@FXML public Label color2_label;
+	@FXML public Label color3_label;
+	@FXML public Label color4_label;
+	@FXML public Label frequency1_label;
+	@FXML public Label frequency2_label;
+	@FXML public Label frequency3_label;
+	@FXML public Label frequency4_label;
+	@FXML public Label message1_label;
+	@FXML public Label message2_label;
+	@FXML public Label message3_label;
+	@FXML public Label message4_label;
+	
+	
 	@FXML public Button submit1_button;
 	@FXML public Button submit2_button;
 	@FXML public Button submit3_button;
@@ -141,6 +159,11 @@ public class ServerController extends ControllerBase {
 		ImageView[] image = {receive_image1, receive_image2, receive_image3, receive_image4};
 		Tab[] tab = {receive_image_tab1, receive_image_tab2, receive_image_tab3, receive_image_tab4};
 		
+		Label[] weight = {weight1_label, weight2_label, weight3_label, weight4_label};
+		Label[] color = {color1_label, color2_label, color3_label, color4_label};
+		Label[] frequency = {frequency1_label, frequency2_label, frequency3_label, frequency4_label};
+		Label[] message = {message1_label, message2_label, message3_label, message4_label};
+		
 		for (int i = 0; i < images.length; i++) {
 			ReceiveModel.imageViews[i] = images[i];
 		}
@@ -156,14 +179,14 @@ public class ServerController extends ControllerBase {
 						BufferedImage readImage = ImageIO.read(ReceiveModel.image);
 						WritableImage im = SwingFXUtils.toFXImage(readImage, null);
 						
-						if (!ReceiveModel.imageMachineNumber.contains(ReceiveModel.newImageMachineNumber)) {
+						if (!ReceiveModel.imageMachineNumber.contains(ReceiveModel.myMachineNumber)) {
 							image[ReceiveModel.imageMachineNumber.size()].setImage(im);
-							tab[ReceiveModel.imageMachineNumber.size()].setText("受信画像(From " + ReceiveModel.newImageMachineNumber + "号機)");
-							ReceiveModel.imageMachineNumber.add(ReceiveModel.newImageMachineNumber);
+							tab[ReceiveModel.imageMachineNumber.size()].setText("受信画像(From " + ReceiveModel.myMachineNumber + "号機)");
+							ReceiveModel.imageMachineNumber.add(ReceiveModel.myMachineNumber);
 						} else {
 							int num;
-							image[(num = ReceiveModel.imageMachineNumber.indexOf(ReceiveModel.newImageMachineNumber))].setImage(im);
-							tab[num].setText("受信画像(From " + ReceiveModel.newImageMachineNumber + "号機)");
+							image[(num = ReceiveModel.imageMachineNumber.indexOf(ReceiveModel.myMachineNumber))].setImage(im);
+							tab[num].setText("受信画像(From " + ReceiveModel.myMachineNumber + "号機)");
 						}
 					} catch (IOException e) {
 						errorStackTrace(e);
@@ -174,10 +197,24 @@ public class ServerController extends ControllerBase {
 				if (ReceiveModel.isSendedGrid) {
 					for (int i = 0; i < 9; i++) {
 						if (ReceiveModel.gridData.charAt(i) == '1') {
-							grid[Integer.parseInt(ReceiveModel.newImageMachineNumber)-1][i].setFill(Color.BLACK);
+							grid[Integer.parseInt(ReceiveModel.myMachineNumber)-1][i].setFill(Color.BLACK);
 						}
 					}
 					ReceiveModel.isSendedGrid = false;
+				}
+				
+				if (ReceiveModel.weightFlag) {
+					weight[Integer.parseInt(ReceiveModel.myMachineNumber)-1].setText(ReceiveModel.weightData);
+					ReceiveModel.weightFlag = false;
+				} else if (ReceiveModel.colorFlag) {
+					color[Integer.parseInt(ReceiveModel.myMachineNumber)-1].setText(ReceiveModel.colorData);
+					ReceiveModel.colorFlag = false;
+				} else if (ReceiveModel.frequencyFlag) {
+					frequency[Integer.parseInt(ReceiveModel.myMachineNumber)-1].setText(ReceiveModel.frequencyData);
+					ReceiveModel.frequencyFlag = false;
+				} else if (ReceiveModel.messageFlag) {
+					message[Integer.parseInt(ReceiveModel.myMachineNumber)-1].setText(ReceiveModel.messageData);
+					ReceiveModel.messageFlag = false;
 				}
 			}
 		};
@@ -263,6 +300,9 @@ public class ServerController extends ControllerBase {
 			if (mapFrag != 0 && ReceiveModel.clientValue >= 0) {
 				int x = (int)event.getX() + swing;
 				int y = (int)event.getY() + swing;
+				
+				if (x < StoreData.DEFAULT_MAP_ITEM_SIZE/2 || x > StoreData.SERVER_MAP_SIZE || y < StoreData.DEFAULT_MAP_ITEM_SIZE/2 || y > StoreData.SERVER_MAP_SIZE-100)
+					break;
 				
 				ReceiveModel.data = stringMapEventAgent("0000", mapFrag, x, y);
 				ReceiveModel.isUpdated = true;

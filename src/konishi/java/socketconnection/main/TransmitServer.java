@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import konishi.java.socketconnection.base.TransmitBase;
 import konishi.java.socketconnection.model.ReceiveModel;
@@ -77,7 +78,7 @@ public class TransmitServer extends TransmitBase {
 	class MultiThreadManager extends Thread {
 		private Socket socket;
 		private String data_str, data;
-		private int data_tmp;
+		private int data_tmp, data_tmp2;
 		private StringBuilder sb = new StringBuilder();
 		
 		/**
@@ -90,6 +91,9 @@ public class TransmitServer extends TransmitBase {
 		InputStreamReader in;
 		ObjectInputStream ois;
 		
+		int tmp;
+		ArrayList<String> messageData = new ArrayList<>();
+		
 		public MultiThreadManager(Socket _socket) throws Exception {
 			socket = _socket;
 			clientOrder = ReceiveModel.clientValue++;
@@ -99,20 +103,46 @@ public class TransmitServer extends TransmitBase {
 			stackTrace(ReceiveModel.clientValue + "台目: " + socket.getRemoteSocketAddress() + "が接続されました");
 			
 			ois = new ObjectInputStream(socket.getInputStream());
-			in = new InputStreamReader(ois);
+			in = new InputStreamReader(ois, "UTF-8");
 			out = new PrintWriter(socket.getOutputStream(), true);
+		}
+		
+		/**
+		 * OSを意識したデータ読み込みメソッドです。
+		 * Windows, Unixの改行文字に対応しています。
+		 * @param os OS種類
+		 * @return 
+		 * @throws Exception
+		 */
+		public int nextLineProcedure(String os) throws Exception {
+			switch (os) {
+			case StoreData.WINDOWS:
+				if ((data_tmp = in.read()) == '\r')
+					return (((data_tmp2 = in.read()) == '\n') ? -1 : -2);
+				break;
+
+			case StoreData.UNIX:
+				if ((data_tmp = in.read()) == '\n')
+					return -1;
+				break;
+			}
+			return -3;
 		}
 
 		@Override
 		public void run() {
-			
 			Thread readThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					while (!ReceiveModel.emergencyStopSignal) {
 						try {
-							while ((data_tmp = in.read()) != 10 && data_tmp != -1) {
-								sb.append((char)data_tmp);
+							while ((tmp = nextLineProcedure(getOS())) != -1 && data_tmp != -1) {
+								if (tmp == -3) {
+									sb.append((char)data_tmp);
+								} else {
+									sb.append((char)data_tmp);
+									sb.append((char)data_tmp2);
+								}
 							}
 							data_str = new String(sb);
 							sb.setLength(0);
@@ -122,13 +152,34 @@ public class TransmitServer extends TransmitBase {
 							} else if (data_str.startsWith("IMAGE")) {
 								ReceiveModel.image = (File) ois.readObject();
 								stackTrace("image");
-								ReceiveModel.newImageMachineNumber = data_str.substring(6);
+								ReceiveModel.myMachineNumber = data_str.substring(6);
 								ReceiveModel.isSendedImage = true;
 								data_str = "";
 							} else if (data_str.startsWith("GRID")) {
-								ReceiveModel.newImageMachineNumber = data_str.substring(5);
+								ReceiveModel.myMachineNumber = data_str.substring(5);
 								ReceiveModel.gridData = (String)ois.readObject();
 								ReceiveModel.isSendedGrid = true;
+							} else if (data_str.startsWith("MESSAGE")) {
+								messageData = stringSeparator(data_str, ":");
+								ReceiveModel.myMachineNumber = messageData.get(1);
+								switch (messageData.get(2)) {
+								case "WEIGHT":
+									ReceiveModel.weightData = messageData.get(3);
+									ReceiveModel.weightFlag = true;
+									break;
+								case "COLOR":
+									ReceiveModel.colorData = messageData.get(3);
+									ReceiveModel.colorFlag = true;
+									break;
+								case "FREQUENCY":
+									ReceiveModel.frequencyData = messageData.get(3);
+									ReceiveModel.frequencyFlag = true;
+									break;
+								case "MESSAGE":
+									ReceiveModel.messageData = messageData.get(3);
+									ReceiveModel.messageFlag = true;
+									break;
+								}
 							} else if (!data_str.equals("")) {
 								StringBuilder sb = new StringBuilder();
 								sb.append(data_str);

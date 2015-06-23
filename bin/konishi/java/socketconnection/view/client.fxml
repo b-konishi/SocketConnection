@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
@@ -104,7 +105,7 @@
                                     </ImageView>
                                     <ImageView fx:id="doll_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../image/doll.gif" />
+                                          <Image url="@../../../../../image/doll.png" />
                                        </image>
                                     </ImageView>
                                     <ImageView fx:id="rubble1_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
@@ -114,7 +115,7 @@
                                     </ImageView>
                                     <ImageView fx:id="rubble2_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../image/rubble2.png" />
+                                          <Image url="@../../../../../image/house.png" />
                                        </image>
                                     </ImageView>
                                     <ImageView fx:id="dust_map_button" fitHeight="100.0" fitWidth="50.0" onMouseClicked="#handleMouseAction" pickOnBounds="true" preserveRatio="true">
@@ -164,28 +165,80 @@
                                  <children>
                                     <HBox alignment="CENTER" layoutX="493.0" layoutY="611.0" prefHeight="25.0" prefWidth="267.0">
                                        <children>
-                                          <TextField layoutX="419.0" layoutY="359.0" prefHeight="25.0" prefWidth="217.0" promptText="送信メッセージ" />
-                                          <Button fx:id="submit_button" layoutX="541.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="送信" />
+                                          <TextField fx:id="message_text" layoutX="419.0" layoutY="359.0" prefHeight="25.0" prefWidth="217.0" promptText="送信メッセージ" />
+                                          <Button fx:id="submit_button" layoutX="541.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="47.0" text="送信" />
                                        </children>
                                     </HBox>
                                     <HBox layoutX="490.0" layoutY="394.0" prefHeight="184.0" prefWidth="269.0">
                                        <children>
                                           <HBox alignment="CENTER" prefHeight="184.0" prefWidth="272.0">
                                              <children>
-                                                <VBox alignment="CENTER" spacing="20.0">
+                                                <VBox alignment="CENTER" prefHeight="184.0" prefWidth="258.0" spacing="25.0">
                                                    <children>
-                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="体重:" />
-                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="色情報" />
-                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="Label" />
-                                                      <Label alignment="CENTER" prefHeight="34.0" prefWidth="83.0" text="Label" />
-                                                   </children>
-                                                </VBox>
-                                                <VBox alignment="CENTER" prefHeight="184.0" prefWidth="186.0" spacing="20.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
-                                                      <Label alignment="CENTER" prefHeight="34.0" text="Label" />
+                                                      <HBox alignment="CENTER">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="70.0" text="体重:  ">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="weight_text" prefHeight="25.0" prefWidth="100.0" />
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="30.0" text="kg">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Button fx:id="weight_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="47.0" text="送信" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="70.0" text="色情報:  ">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="color_text" prefHeight="25.0" prefWidth="100.0" />
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="30.0">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Button fx:id="color_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="47.0" text="送信" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="70.0" text="周波数:  ">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="frequency_text" prefWidth="100.0" />
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="30.0" text="Hz">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Button fx:id="frequency_button" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="47.0" text="送信" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="70.0" text="Label:  ">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField prefWidth="100.0" />
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="30.0">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="47.0" text="送信" />
+                                                         </children>
+                                                      </HBox>
                                                    </children>
                                                 </VBox>
                                              </children>

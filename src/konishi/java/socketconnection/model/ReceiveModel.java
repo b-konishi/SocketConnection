@@ -9,7 +9,6 @@ import javafx.scene.paint.Paint;
 
 public class ReceiveModel {
 	
-	volatile public static int selectedClientDialog;
 	volatile public static String addressPortDialog;
 	volatile public static boolean errorDialog = false;
 	
@@ -41,7 +40,7 @@ public class ReceiveModel {
 	/**
 	 * 受信した画像のロボット番号を格納します。
 	 */
-	volatile public static String newImageMachineNumber;
+	volatile public static String myMachineNumber;
 	
 	/**
 	 * これまで画像を受信したロボット番号を格納します。
@@ -83,4 +82,17 @@ public class ReceiveModel {
 	volatile public static String gridData;
 	
 	volatile public static boolean isSendedGrid = false;
+	
+	volatile public static boolean weightFlag = false;
+	volatile public static boolean colorFlag = false;
+	volatile public static boolean frequencyFlag = false;
+	volatile public static boolean messageFlag = false;
+	
+	volatile public static String weightData;
+	volatile public static String colorData;
+	volatile public static String frequencyData;
+	volatile public static String messageData;
+	
+	
+	
 }

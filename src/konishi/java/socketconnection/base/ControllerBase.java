@@ -26,7 +26,7 @@ abstract public class ControllerBase extends TotalBase {
 	protected Thread update = null;
 	protected int mapFrag = 0;
 	
-	protected String[] imageName = {"rescue.gif", "doll.gif", "rubble1.png", "rubble2.png"};
+	protected String[] imageName = {"rescue.gif", "doll.png", "rubble1.png", "house.png"};
 	protected ImageView image = null;
 	
 	protected ArrayList<Integer> coordinate = new ArrayList<>();

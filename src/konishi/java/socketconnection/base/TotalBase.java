@@ -3,6 +3,8 @@ package konishi.java.socketconnection.base;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import konishi.java.socketconnection.model.StoreData;
+
 
 public class TotalBase {
 	
@@ -23,6 +25,13 @@ public class TotalBase {
         	data.add(st.nextToken());
         }
         return data;
+	}
+	
+	public String getOS() {
+		if (System.getProperty("file.separator").equals("\\"))
+			return StoreData.WINDOWS;
+		else
+			return StoreData.UNIX;
 	}
 	
 	/**

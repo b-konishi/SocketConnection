@@ -7,6 +7,9 @@ package konishi.java.socketconnection.model;
  *
  */
 public class StoreData {
+	public static final String WINDOWS = "WINDOWS";
+	public static final String UNIX = "UNIX";
+	
 	public static int PORT = 8000;
 	
 	public static String CLIENT_PORT;
@@ -47,10 +50,13 @@ public class StoreData {
 	public static final int SERVER_MAP_SIZE = 600;
 	public static final int CLIENT_MAP_SIZE = 300;
 	
-	public static final int SERVER_ICON_SIZE = 100;
-	public static final int CLIENT_ICON_SIZE = 50;
-	
 	public static final int MAP_MAGNIFICATION = SERVER_MAP_SIZE / CLIENT_MAP_SIZE;
+	
+	public static final int SERVER_MAP_GAP = 100;
+	public static final int CLIENT_MAP_GAP = SERVER_MAP_GAP / MAP_MAGNIFICATION;
+	
+	public static final int SERVER_ICON_SIZE = 100;
+	public static final int CLIENT_ICON_SIZE = SERVER_ICON_SIZE / MAP_MAGNIFICATION;
 	
 	public static int DEFAULT_MAP_ITEM_SIZE = 50;
 	

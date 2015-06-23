@@ -87,7 +87,13 @@ public class ClientController extends ControllerBase {
 	
 	@FXML public Button grid_send_button;
 	
-	
+	@FXML public TextField weight_text;
+	@FXML public TextField color_text;
+	@FXML public TextField frequency_text;
+	@FXML public TextField message_text;
+	@FXML public Button weight_button;
+	@FXML public Button color_button;
+	@FXML public Button frequency_button;
 	@FXML public Button submit_button;
 	
 	@FXML public Button shutdown_button;
@@ -122,8 +128,8 @@ public class ClientController extends ControllerBase {
 				// ダイアログが閉じるまでブロックされる
 				confirmDialog.showAndWait();
 	
-	            stackTrace(ReceiveModel.selectedClientDialog + " " + ReceiveModel.addressPortDialog);
-	            machine_number.setText(ReceiveModel.selectedClientDialog + "号機");
+	            stackTrace(ReceiveModel.myMachineNumber + " " + ReceiveModel.addressPortDialog);
+	            machine_number.setText(ReceiveModel.myMachineNumber + "号機");
 	            if (ReceiveModel.addressPortDialog.contains(":")) {
 	            	try {
 						ArrayList<String> text = stringSeparator(ReceiveModel.addressPortDialog, ":");
@@ -241,7 +247,11 @@ public class ClientController extends ControllerBase {
 				int x = (int)event.getX() + swing;
 				int y = (int)event.getY() + swing;
 				
+				if (x < StoreData.DEFAULT_MAP_ITEM_SIZE/2 || x > StoreData.CLIENT_MAP_SIZE || y < StoreData.DEFAULT_MAP_ITEM_SIZE/2 || y > StoreData.CLIENT_MAP_SIZE-50)
+					break;
+				
 				ReceiveModel.data = stringMapEventAgent(StoreData.CLIENT_PORT, mapFrag, x, y);
+				stackTrace(ReceiveModel.data);
 				try {
 					client.write(ReceiveModel.data);
 				} catch (NullPointerException e) {}
@@ -311,7 +321,7 @@ public class ClientController extends ControllerBase {
 	 * @param event イベントアクション
 	 * @throws Exception エラー
 	 */
-	@FXML public void handleButtonAction(ActionEvent event) throws Exception {		
+	@FXML public void handleButtonAction(ActionEvent event) throws Exception {	
 		switch (getId(event.toString())) { 
 		case "connection_button":
 			firstConnection();
@@ -371,10 +381,20 @@ public class ClientController extends ControllerBase {
 										grid20_rect, grid21_rect, grid22_rect);
 			ReceiveModel.isSendedGrid = true;
 			break;
-			
-		case "submit_button":
+		
+		case "weight_button":
+			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"WEIGHT:"+weight_text.getText());
 			break;
-			
+		case "color_button":
+			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"COLOR:"+color_text.getText());
+			break;
+		case "frequency_button":
+			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"FREQUENCY:"+frequency_text.getText());
+			break;
+		case "submit_button":
+			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"MESSAGE:"+message_text.getText());
+			break;
+		
 		case "shutdown_button":
 			try {
 				client.closeTransport();

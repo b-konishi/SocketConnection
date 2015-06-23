@@ -27,7 +27,7 @@ public class DialogController extends ControllerBase {
 	@FXML Button cancel_button;
 	
 	public void initialize() {
-		ReceiveModel.selectedClientDialog = 1;
+		ReceiveModel.myMachineNumber = "1";
 		if (ReceiveModel.errorDialog)
 			error_text.setText("Please connect again.");
 	}
@@ -41,17 +41,17 @@ public class DialogController extends ControllerBase {
 		
 		switch (getId(event.toString())) {
 		case "client1_button":
-			ReceiveModel.selectedClientDialog = 1;
+			ReceiveModel.myMachineNumber = "1";
 			stackTrace();
 			break;
 		case "client2_button":
-			ReceiveModel.selectedClientDialog = 2;
+			ReceiveModel.myMachineNumber = "2";
 			break;
 		case "client3_button":
-			ReceiveModel.selectedClientDialog = 3;
+			ReceiveModel.myMachineNumber = "3";
 			break;
 		case "client4_button":
-			ReceiveModel.selectedClientDialog = 4;
+			ReceiveModel.myMachineNumber = "4";
 			break;
 			
 		case "ok_button":

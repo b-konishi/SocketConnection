@@ -45,7 +45,7 @@ public class TransmitClient extends TransmitBase implements Runnable {
 			public void run() {
 				while (!ReceiveModel.emergencyStopSignal) {
 					if (ReceiveModel.isSendedImage) {
-						write("IMAGE:"+ReceiveModel.selectedClientDialog);
+						write("IMAGE:"+ReceiveModel.myMachineNumber);
 						try {
 							oos.writeObject(ReceiveModel.image);
 							stackTrace("REACH sendImage");
@@ -55,7 +55,7 @@ public class TransmitClient extends TransmitBase implements Runnable {
 						ReceiveModel.isSendedImage = false;
 					}
 					if(ReceiveModel.isSendedGrid) {
-						write("GRID:"+ReceiveModel.selectedClientDialog);
+						write("GRID:"+ReceiveModel.myMachineNumber);
 						try {
 							oos.writeObject(ReceiveModel.gridData);
 							stackTrace(ReceiveModel.gridData);
