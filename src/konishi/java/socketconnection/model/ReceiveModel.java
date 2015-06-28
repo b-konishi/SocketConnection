@@ -1,10 +1,10 @@
 package konishi.java.socketconnection.model;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
+import konishi.java.socketconnection.serialize.BufferedImageSerializer;
 
 
 public class ReceiveModel {
@@ -35,7 +35,7 @@ public class ReceiveModel {
 	/**
 	 * 画像ファイルを格納します。
 	 */
-	volatile public static File image;
+	volatile public static BufferedImageSerializer image;
 	
 	/**
 	 * 受信した画像のロボット番号を格納します。

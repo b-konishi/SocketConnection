@@ -11,6 +11,13 @@ import konishi.java.socketconnection.base.TransmitBase;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
 
+/**
+ * クライアント側の通信関連の処理を行います。
+ * 主に受信したデータはモデルクラスに転送されます。
+ * @author konishi
+ * @see ReceiveModel
+ *
+ */
 public class TransmitClient extends TransmitBase implements Runnable {
 	
 	private InetSocketAddress socketAddress = null;
@@ -48,6 +55,7 @@ public class TransmitClient extends TransmitBase implements Runnable {
 						write("IMAGE:"+ReceiveModel.myMachineNumber);
 						try {
 							oos.writeObject(ReceiveModel.image);
+							oos.flush();
 							stackTrace("REACH sendImage");
 						} catch (IOException e) {
 							errorStackTrace(e);

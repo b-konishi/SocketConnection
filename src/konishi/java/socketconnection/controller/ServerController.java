@@ -1,7 +1,6 @@
 package konishi.java.socketconnection.controller;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javafx.animation.AnimationTimer;
 import javafx.embed.swing.SwingFXUtils;
@@ -16,9 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import javax.imageio.ImageIO;
-
 import konishi.java.socketconnection.base.ControllerBase;
 import konishi.java.socketconnection.main.TransmitServer;
 import konishi.java.socketconnection.model.ReceiveModel;
@@ -35,120 +31,43 @@ public class ServerController extends ControllerBase {
 	
 	@FXML public AnchorPane root_map;
 	
-	@FXML public Button connection_button;
-	@FXML public Button disconnection_button;
+	@FXML public Button connection_button, disconnection_button;
 	
-	@FXML public Tab receive_image_tab1;
-	@FXML public Tab receive_image_tab2;
-	@FXML public Tab receive_image_tab3;
-	@FXML public Tab receive_image_tab4;
+	@FXML public Tab receive_image_tab1, receive_image_tab2, receive_image_tab3, receive_image_tab4;
 	
-	@FXML public ImageView receive_image1;
-	@FXML public ImageView receive_image2;
-	@FXML public ImageView receive_image3;
-	@FXML public ImageView receive_image4;
+	@FXML public ImageView receive_image1, receive_image2, receive_image3, receive_image4;
 	
-	@FXML public Button front_camera1_button;
-	@FXML public Button back_camera1_button;
-	@FXML public Button arm_camera1_button;
+	@FXML public Button front_camera1_button, back_camera1_button, arm_camera1_button;
+	@FXML public Button front_camera2_button, back_camera2_button, arm_camera2_button;
+	@FXML public Button front_camera3_button, back_camera3_button, arm_camera3_button;
+	@FXML public Button front_camera4_button, back_camera4_button, arm_camera4_button;
 	
-	@FXML public Button front_camera2_button;
-	@FXML public Button back_camera2_button;
-	@FXML public Button arm_camera2_button;
+	@FXML public Rectangle grid00_rect1, grid01_rect1, grid02_rect1, grid10_rect1, grid11_rect1, grid12_rect1, grid20_rect1, grid21_rect1, grid22_rect1;
+	@FXML public Rectangle grid00_rect2, grid01_rect2, grid02_rect2, grid10_rect2, grid11_rect2, grid12_rect2, grid20_rect2, grid21_rect2, grid22_rect2;
+	@FXML public Rectangle grid00_rect3, grid01_rect3, grid02_rect3, grid10_rect3, grid11_rect3, grid12_rect3, grid20_rect3, grid21_rect3, grid22_rect3;
+	@FXML public Rectangle grid00_rect4, grid01_rect4, grid02_rect4, grid10_rect4, grid11_rect4, grid12_rect4, grid20_rect4, grid21_rect4, grid22_rect4;
 	
-	@FXML public Button front_camera3_button;
-	@FXML public Button back_camera3_button;
-	@FXML public Button arm_camera3_button;
+	@FXML public Label weight1_label, weight2_label, weight3_label, weight4_label;
+	@FXML public Label color1_label, color2_label, color3_label, color4_label;
+	@FXML public Label frequency1_label, frequency2_label, frequency3_label, frequency4_label;
+	@FXML public Label message1_label, message2_label, message3_label, message4_label;
 	
-	@FXML public Button front_camera4_button;
-	@FXML public Button back_camera4_button;
-	@FXML public Button arm_camera4_button;
+	@FXML public Button submit1_button, submit2_button, submit3_button, submit4_button;
 	
-	@FXML public Rectangle grid00_rect1;
-	@FXML public Rectangle grid01_rect1;
-	@FXML public Rectangle grid02_rect1;
-	@FXML public Rectangle grid10_rect1;
-	@FXML public Rectangle grid11_rect1;
-	@FXML public Rectangle grid12_rect1;
-	@FXML public Rectangle grid20_rect1;
-	@FXML public Rectangle grid21_rect1;
-	@FXML public Rectangle grid22_rect1;
-	
-	@FXML public Rectangle grid00_rect2;
-	@FXML public Rectangle grid01_rect2;
-	@FXML public Rectangle grid02_rect2;
-	@FXML public Rectangle grid10_rect2;
-	@FXML public Rectangle grid11_rect2;
-	@FXML public Rectangle grid12_rect2;
-	@FXML public Rectangle grid20_rect2;
-	@FXML public Rectangle grid21_rect2;
-	@FXML public Rectangle grid22_rect2;
-	
-	@FXML public Rectangle grid00_rect3;
-	@FXML public Rectangle grid01_rect3;
-	@FXML public Rectangle grid02_rect3;
-	@FXML public Rectangle grid10_rect3;
-	@FXML public Rectangle grid11_rect3;
-	@FXML public Rectangle grid12_rect3;
-	@FXML public Rectangle grid20_rect3;
-	@FXML public Rectangle grid21_rect3;
-	@FXML public Rectangle grid22_rect3;
-	
-	@FXML public Rectangle grid00_rect4;
-	@FXML public Rectangle grid01_rect4;
-	@FXML public Rectangle grid02_rect4;
-	@FXML public Rectangle grid10_rect4;
-	@FXML public Rectangle grid11_rect4;
-	@FXML public Rectangle grid12_rect4;
-	@FXML public Rectangle grid20_rect4;
-	@FXML public Rectangle grid21_rect4;
-	@FXML public Rectangle grid22_rect4;
-	
-	@FXML public Label weight1_label;
-	@FXML public Label weight2_label;
-	@FXML public Label weight3_label;
-	@FXML public Label weight4_label;
-	@FXML public Label color1_label;
-	@FXML public Label color2_label;
-	@FXML public Label color3_label;
-	@FXML public Label color4_label;
-	@FXML public Label frequency1_label;
-	@FXML public Label frequency2_label;
-	@FXML public Label frequency3_label;
-	@FXML public Label frequency4_label;
-	@FXML public Label message1_label;
-	@FXML public Label message2_label;
-	@FXML public Label message3_label;
-	@FXML public Label message4_label;
-	
-	
-	@FXML public Button submit1_button;
-	@FXML public Button submit2_button;
-	@FXML public Button submit3_button;
-	@FXML public Button submit4_button;
-	
-	@FXML public ImageView robot_map_button;
-	@FXML public ImageView doll_map_button;
-	@FXML public ImageView rubble1_map_button;
-	@FXML public ImageView rubble2_map_button;
-	@FXML public ImageView dust_map_button;
+	@FXML public ImageView robot_map_button, doll_map_button, rubble1_map_button, rubble2_map_button, dust_map_button;
 	
 	@FXML public Button shutdown_button;
 	
-	@FXML public Label ip_adress;
-	@FXML public Label ip_adress1;
-	@FXML public Label ip_adress2;
-	@FXML public Label ip_adress3;
-	@FXML public Label ip_adress4;
-	
-//	private static final String MAP_FILE = StoreData.SERVER_MAP_FILE;
-	
+	@FXML public Label ip_adress, ip_adress1, ip_adress2, ip_adress3, ip_adress4;
+
 	private TransmitServer server = null;
 	private AnimationTimer timer = null;
 				
 	public void initialize() {
 		StoreData.LOCAL = StoreData.SERVER;
 		StoreData.DEFAULT_MAP_ITEM_SIZE = StoreData.SERVER_ICON_SIZE;
+		
+		ReceiveModel.defaultGridColor = grid00_rect1.getFill();
 		
 		Rectangle[][] grid = {{grid00_rect1, grid01_rect1, grid02_rect1, grid10_rect1, grid11_rect1, grid12_rect1, grid20_rect1, grid21_rect1, grid22_rect1},
 				{grid00_rect2, grid01_rect2, grid02_rect2, grid10_rect2, grid11_rect2, grid12_rect2, grid20_rect2, grid21_rect2, grid22_rect2},
@@ -176,7 +95,7 @@ public class ServerController extends ControllerBase {
 				
 				if (ReceiveModel.isSendedImage) {
 					try {
-						BufferedImage readImage = ImageIO.read(ReceiveModel.image);
+						BufferedImage readImage = ReceiveModel.image.getImage();
 						WritableImage im = SwingFXUtils.toFXImage(readImage, null);
 						
 						if (!ReceiveModel.imageMachineNumber.contains(ReceiveModel.myMachineNumber)) {
@@ -188,17 +107,15 @@ public class ServerController extends ControllerBase {
 							image[(num = ReceiveModel.imageMachineNumber.indexOf(ReceiveModel.myMachineNumber))].setImage(im);
 							tab[num].setText("受信画像(From " + ReceiveModel.myMachineNumber + "号機)");
 						}
-					} catch (IOException e) {
-						errorStackTrace(e);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 					ReceiveModel.isSendedImage = false;
 				}
 				
 				if (ReceiveModel.isSendedGrid) {
 					for (int i = 0; i < 9; i++) {
-						if (ReceiveModel.gridData.charAt(i) == '1') {
-							grid[Integer.parseInt(ReceiveModel.myMachineNumber)-1][i].setFill(Color.BLACK);
-						}
+						grid[Integer.parseInt(ReceiveModel.myMachineNumber)-1][i].setFill((ReceiveModel.gridData.charAt(i)=='1') ? Color.BLACK:ReceiveModel.defaultGridColor);
 					}
 					ReceiveModel.isSendedGrid = false;
 				}
@@ -224,7 +141,7 @@ public class ServerController extends ControllerBase {
 	/**
 	 * connectボタンを押した際の初期処理です。
 	 * #initializeとは違うことに注意してください。
-	 * @throws Exception
+	 * @throws Exception 例外
 	 */
 	public void firstConnection() throws Exception {
 		stackTrace(StoreData.PORT);

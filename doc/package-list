@@ -2,4 +2,5 @@ konishi.java.socketconnection.base
 konishi.java.socketconnection.controller
 konishi.java.socketconnection.main
 konishi.java.socketconnection.model
+konishi.java.socketconnection.serialize
 konishi.java.socketconnection.view

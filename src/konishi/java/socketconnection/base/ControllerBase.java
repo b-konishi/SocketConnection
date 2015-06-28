@@ -74,9 +74,12 @@ abstract public class ControllerBase extends TotalBase {
 
 	/**
 	 * 図形を描画します。
+	 * @param kind 受信元種別
 	 * @param id アイテムのID
-	 * @param x X座標
-	 * @param y Y座標
+	 * @param _x X座標
+	 * @param _y Y座標
+	 * @param w アイテムの横幅
+	 * @param h アイテムの縦幅
 	 */
 	public void drawFigure(String kind, int id, double _x, double _y, int w, int h) {
 		

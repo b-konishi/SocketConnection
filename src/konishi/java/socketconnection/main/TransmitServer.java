@@ -1,22 +1,24 @@
 package konishi.java.socketconnection.main;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import konishi.java.socketconnection.base.TransmitBase;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
+import konishi.java.socketconnection.serialize.BufferedImageSerializer;
 
 /**
- * サーバー側の通信処理をまとめたクラス。
- * @version 1.0.0
+ * サーバー側の通信処理をまとめたクラスです。
+ * 主に受信したデータはモデルクラスに格納されます。
  * @author konishi
+ * @see ReceiveModel
  *
  */
 public class TransmitServer extends TransmitBase {
@@ -103,7 +105,7 @@ public class TransmitServer extends TransmitBase {
 			stackTrace(ReceiveModel.clientValue + "台目: " + socket.getRemoteSocketAddress() + "が接続されました");
 			
 			ois = new ObjectInputStream(socket.getInputStream());
-			in = new InputStreamReader(ois, "UTF-8");
+			in = new InputStreamReader(ois, StandardCharsets.UTF_8);
 			out = new PrintWriter(socket.getOutputStream(), true);
 		}
 		
@@ -111,8 +113,8 @@ public class TransmitServer extends TransmitBase {
 		 * OSを意識したデータ読み込みメソッドです。
 		 * Windows, Unixの改行文字に対応しています。
 		 * @param os OS種類
-		 * @return 
-		 * @throws Exception
+		 * @return 評価値(-1:Windowsの改行コード, -2:Windowsであり改行コードでない, -1:Unixの改行コード, -3:改行コードでない)
+		 * @throws Exception 読み込みエラー
 		 */
 		public int nextLineProcedure(String os) throws Exception {
 			switch (os) {
@@ -150,7 +152,7 @@ public class TransmitServer extends TransmitBase {
 								stackTrace();
 								closeTransport();
 							} else if (data_str.startsWith("IMAGE")) {
-								ReceiveModel.image = (File) ois.readObject();
+								ReceiveModel.image = (BufferedImageSerializer) ois.readObject();
 								stackTrace("image");
 								ReceiveModel.myMachineNumber = data_str.substring(6);
 								ReceiveModel.isSendedImage = true;
@@ -229,14 +231,6 @@ public class TransmitServer extends TransmitBase {
 					stackTrace(data);
 					out.println(data);
 				}
-				
-//				if ((ReceiveModel.sendData != null && data == null) || (ReceiveModel.sendData != null && !data.equals(ReceiveModel.sendData))) {
-//					if (data == null)
-//					stackTrace();
-//					data = ReceiveModel.sendData;
-//					stackTrace();
-//					out.println(data);
-//				}
 			}
 			stackTrace("スレッド終了");
 		}

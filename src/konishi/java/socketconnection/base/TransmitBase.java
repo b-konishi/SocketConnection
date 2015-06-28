@@ -21,7 +21,7 @@ abstract public class TransmitBase extends TotalBase {
 	 * PORT番号を返します。<br>
 	 * インスタンスは共通でないため、
 	 * 各サーバー・クライアントにて実装してください。
-	 * @return
+	 * @return PORTの文字列
 	 */
 	abstract public String getPort();
 	

@@ -33,6 +33,7 @@ import konishi.java.socketconnection.base.ControllerBase;
 import konishi.java.socketconnection.main.TransmitClient;
 import konishi.java.socketconnection.model.ReceiveModel;
 import konishi.java.socketconnection.model.StoreData;
+import konishi.java.socketconnection.serialize.BufferedImageSerializer;
 
 /**
  * クライアント側のコントローラーです。
@@ -42,26 +43,20 @@ import konishi.java.socketconnection.model.StoreData;
  * @see ServerController
  */
 public class ClientController extends ControllerBase {
-	
+
 	@FXML public AnchorPane root_map;
-	
+
 	@FXML public Button connection_button;
 	@FXML public Button disconnection_button;
 
 	@FXML public Label machine_number;
 
 	@FXML public ImageView camera_image;
-	
-	@FXML public Button front_camera_button;
-	@FXML public Button back_camera_button;
-	@FXML public Button arm_camera_button;
-	
-	@FXML public ImageView robot_map_button;
-	@FXML public ImageView doll_map_button;
-	@FXML public ImageView rubble1_map_button;
-	@FXML public ImageView rubble2_map_button;
-	@FXML public ImageView dust_map_button;
-	
+
+	@FXML public Button front_camera_button, back_camera_button, arm_camera_button;
+
+	@FXML public ImageView robot_map_button, doll_map_button, rubble1_map_button, rubble2_map_button, dust_map_button;
+
 	@FXML public Button l2_controller_button;
 	@FXML public Button l1_controller_button;
 	@FXML public Button r2_controller_button;
@@ -74,45 +69,30 @@ public class ClientController extends ControllerBase {
 	@FXML public Button cross_controller_button;
 	@FXML public Button triangle_controller_button;
 	@FXML public Button rectangle_controller_button;
-	
-	@FXML public Rectangle grid00_rect;
-	@FXML public Rectangle grid01_rect;
-	@FXML public Rectangle grid02_rect;
-	@FXML public Rectangle grid10_rect;
-	@FXML public Rectangle grid11_rect;
-	@FXML public Rectangle grid12_rect;
-	@FXML public Rectangle grid20_rect;
-	@FXML public Rectangle grid21_rect;
-	@FXML public Rectangle grid22_rect;
-	
+
+	@FXML public Rectangle grid00_rect, grid01_rect, grid02_rect, grid10_rect, grid11_rect, grid12_rect, grid20_rect, grid21_rect, grid22_rect;
 	@FXML public Button grid_send_button;
-	
-	@FXML public TextField weight_text;
-	@FXML public TextField color_text;
-	@FXML public TextField frequency_text;
-	@FXML public TextField message_text;
-	@FXML public Button weight_button;
-	@FXML public Button color_button;
-	@FXML public Button frequency_button;
-	@FXML public Button submit_button;
-	
+
+	@FXML public TextField weight_text, color_text, frequency_text, message_text;
+	@FXML public Button weight_button, color_button, frequency_button, submit_button;
+
 	@FXML public Button shutdown_button;
-	
+
 	@FXML public Label ip_adress;
 	@FXML public Label emergency_stop_signal;
-	
+
 	@FXML public TextField input_server_adress;
-	
+
 	private static final int CLIENT_MAP_ITEM_SIZE = StoreData.DEFAULT_MAP_ITEM_SIZE / StoreData.MAP_MAGNIFICATION;
-	
+
 	private TransmitClient client = null;
-	
+
 	public void initialize() {
 		StoreData.LOCAL = StoreData.CLIENT;
 		StoreData.DEFAULT_MAP_ITEM_SIZE = StoreData.CLIENT_ICON_SIZE;
-		
+
 		ReceiveModel.defaultGridColor = grid00_rect.getFill();
-		
+
 		try {
 			do {
 				// 確認ダイアログの表示
@@ -127,30 +107,26 @@ public class ClientController extends ControllerBase {
 				confirmDialog.setTitle("Select an Option");
 				// ダイアログが閉じるまでブロックされる
 				confirmDialog.showAndWait();
-	
-	            stackTrace(ReceiveModel.myMachineNumber + " " + ReceiveModel.addressPortDialog);
-	            machine_number.setText(ReceiveModel.myMachineNumber + "号機");
-	            if (ReceiveModel.addressPortDialog.contains(":")) {
-	            	try {
-						ArrayList<String> text = stringSeparator(ReceiveModel.addressPortDialog, ":");
-						StoreData.HOST_NAME = text.get(0);
-						StoreData.PORT = Integer.parseInt(text.get(1));
-	            	} catch(Exception e) {}
-	            }
+
+				stackTrace(ReceiveModel.myMachineNumber + " " + ReceiveModel.addressPortDialog);
+				machine_number.setText(ReceiveModel.myMachineNumber + "号機");
+				if (ReceiveModel.addressPortDialog.contains(":")) {
+					ArrayList<String> text = stringSeparator(ReceiveModel.addressPortDialog, ":");
+					StoreData.HOST_NAME = text.get(0);
+					StoreData.PORT = Integer.parseInt(text.get(1));
+				}
 			} while (!firstConnection());
 
-        } catch (Exception e) {
-        	System.exit(0);
-        }
-		
-		
-		
-		ImageView[] images = {robot_map_button, doll_map_button, rubble1_map_button, rubble2_map_button, dust_map_button};
+		} catch (Exception e) {
+			System.exit(0);
+		}
+
+		ImageView[] images = { robot_map_button, doll_map_button, rubble1_map_button, rubble2_map_button, dust_map_button };
 		for (int i = 0; i < images.length; i++) {
 			ReceiveModel.imageViews[i] = images[i];
 		}
-		
-		AnimationTimer timer = new AnimationTimer() {	
+
+		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 				if (!ReceiveModel.emergencyStopSignal) {
@@ -162,16 +138,18 @@ public class ClientController extends ControllerBase {
 		};
 		timer.start();
 	}
-	
+
 	/**
 	 * 初期化処理を記述するメソッドです。
+	 * @return 接続成功か失敗か
+	 * @throws Exception 例外
 	 */
 	public boolean firstConnection() throws Exception {
 		try {
 			emergency_stop_signal.setText("");
 			connection_button.setText(StoreData.IN_CONNECTION);
 			emergency_stop_signal.setText(StoreData.SERVER_NOMAL_CONNECTION);
-			
+
 			client = new TransmitClient();
 			setRootMap(root_map);
 			ip_adress.setText(client.getPort());
@@ -183,11 +161,9 @@ public class ClientController extends ControllerBase {
 		}
 		return true;
 	}
-	
+
 	/**
-	 * 緊急時の処理をおこないます。
-	 * 緊急時とは、サーバーの通信が途絶えた時、緊急時ストップシグナルフラグが立ち、
-	 * 処理をおこなわれます。
+	 * 緊急時の処理をおこないます。 緊急時とは、サーバーの通信が途絶えた時、緊急時ストップシグナルフラグが立ち、 処理をおこなわれます。
 	 */
 	public void emergencyDisposal() {
 		stackTrace();
@@ -197,15 +173,19 @@ public class ClientController extends ControllerBase {
 		ReceiveModel.emergencyStopSignal = false;
 		try {
 			client.closeTransport();
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 	}
-	
+
 	/**
 	 * マウスクリック時の動作を定義します。
-	 * @param event マウスクリック時に受け取るイベント
+	 * 
+	 * @param event
+	 *            マウスクリック時に受け取るイベント
 	 */
-	@FXML public void handleMouseAction(MouseEvent event) throws Exception {
-		switch (getId(event.toString())) { 
+	@FXML
+	public void handleMouseAction(MouseEvent event) throws Exception {
+		switch (getId(event.toString())) {
 		case "robot_map_button":
 			iconOpacity(robot_map_button, mapFrag);
 			if (mapFrag != 1) {
@@ -241,24 +221,25 @@ public class ClientController extends ControllerBase {
 			}
 			mapFrag ^= 5;
 			break;
-			
+
 		case "root_map":
 			if (mapFrag != 0) {
-				int x = (int)event.getX() + swing;
-				int y = (int)event.getY() + swing;
-				
-				if (x < StoreData.DEFAULT_MAP_ITEM_SIZE/2 || x > StoreData.CLIENT_MAP_SIZE || y < StoreData.DEFAULT_MAP_ITEM_SIZE/2 || y > StoreData.CLIENT_MAP_SIZE-50)
+				int x = (int) event.getX() + swing;
+				int y = (int) event.getY() + swing;
+
+				if (x < StoreData.DEFAULT_MAP_ITEM_SIZE / 2
+						|| x > StoreData.CLIENT_MAP_SIZE
+						|| y < StoreData.DEFAULT_MAP_ITEM_SIZE / 2
+						|| y > StoreData.CLIENT_MAP_SIZE - 50)
 					break;
-				
+
 				ReceiveModel.data = stringMapEventAgent(StoreData.CLIENT_PORT, mapFrag, x, y);
 				stackTrace(ReceiveModel.data);
-				try {
-					client.write(ReceiveModel.data);
-				} catch (NullPointerException e) {}
+				client.write(ReceiveModel.data);
 				ReceiveModel.isUpdated = true;
 			}
 			break;
-			
+
 		case "grid00_rect":
 			setGridColor(grid00_rect);
 			break;
@@ -286,12 +267,9 @@ public class ClientController extends ControllerBase {
 		case "grid22_rect":
 			setGridColor(grid22_rect);
 			break;
-		
-		default :
-			
 		}
 	}
-	
+
 	public void setGridColor(Rectangle r) {
 		if (r.getFill() != Color.BLACK)
 			r.setFill(Color.BLACK);
@@ -299,30 +277,36 @@ public class ClientController extends ControllerBase {
 			r.setFill(ReceiveModel.defaultGridColor);
 	}
 
-	@FXML public void handleKeyAction(KeyEvent event) {
+	@FXML
+	public void handleKeyAction(KeyEvent event) {
 		if (KeyCode.ENTER.equals(event.getCode())) {
 			ArrayList<String> text = stringSeparator(input_server_adress.getText(), ":");
-			
+
 			StoreData.HOST_NAME = text.get(0);
 			StoreData.PORT = Integer.parseInt(text.get(1));
-			
+
 		}
 	}
+
 	public String getGridData(Rectangle... r) {
 		StringBuilder sb = new StringBuilder();
-		for (int i=0; i < r.length; i++) {
+		for (int i = 0; i < r.length; i++) {
 			sb.append((r[i].getFill().equals(ReceiveModel.defaultGridColor)) ? "0" : "1");
 		}
 		return new String(sb);
 	}
-	
+
 	/**
 	 * ボタンアクションを読み取ります。
-	 * @param event イベントアクション
-	 * @throws Exception エラー
+	 * 
+	 * @param event
+	 *            イベントアクション
+	 * @throws Exception
+	 *             エラー
 	 */
-	@FXML public void handleButtonAction(ActionEvent event) throws Exception {	
-		switch (getId(event.toString())) { 
+	@FXML
+	public void handleButtonAction(ActionEvent event) throws Exception {
+		switch (getId(event.toString())) {
 		case "connection_button":
 			firstConnection();
 			break;
@@ -330,7 +314,7 @@ public class ClientController extends ControllerBase {
 			connection_button.setText(StoreData.CONNECTED);
 			client.closeTransport();
 			break;
-			
+
 		case "front_camera_button":
 			FileChooser fc = new FileChooser();
 			try {
@@ -339,17 +323,17 @@ public class ClientController extends ControllerBase {
 				WritableImage im = SwingFXUtils.toFXImage(readImage, null);
 				camera_image.setImage(im);
 				if (importFile != null) {
-					ReceiveModel.image = importFile;
+					ReceiveModel.image = new BufferedImageSerializer(readImage);
 					ReceiveModel.isSendedImage = true;
 				}
 			} catch (Exception e) {}
 			break;
 		case "back_camera_button":
-			
+
 			break;
 		case "arm_camera_button":
 			break;
-		
+
 		case "l2_controller_button":
 			break;
 		case "l1_controller_button":
@@ -376,25 +360,25 @@ public class ClientController extends ControllerBase {
 			break;
 
 		case "grid_send_button":
-			ReceiveModel.gridData = getGridData(grid00_rect, grid01_rect, grid02_rect,
-										grid10_rect, grid11_rect, grid12_rect,
-										grid20_rect, grid21_rect, grid22_rect);
+			ReceiveModel.gridData = getGridData(grid00_rect, grid01_rect,
+					grid02_rect, grid10_rect, grid11_rect, grid12_rect,
+					grid20_rect, grid21_rect, grid22_rect);
 			ReceiveModel.isSendedGrid = true;
 			break;
-		
+
 		case "weight_button":
-			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"WEIGHT:"+weight_text.getText());
+			client.write("MESSAGE:" + ReceiveModel.myMachineNumber + ":" + "WEIGHT:" + weight_text.getText());
 			break;
 		case "color_button":
-			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"COLOR:"+color_text.getText());
+			client.write("MESSAGE:" + ReceiveModel.myMachineNumber + ":" + "COLOR:" + color_text.getText());
 			break;
 		case "frequency_button":
-			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"FREQUENCY:"+frequency_text.getText());
+			client.write("MESSAGE:" + ReceiveModel.myMachineNumber + ":" + "FREQUENCY:" + frequency_text.getText());
 			break;
 		case "submit_button":
-			client.write("MESSAGE:"+ReceiveModel.myMachineNumber+":"+"MESSAGE:"+message_text.getText());
+			client.write("MESSAGE:" + ReceiveModel.myMachineNumber + ":" + "MESSAGE:" + message_text.getText());
 			break;
-		
+
 		case "shutdown_button":
 			try {
 				client.closeTransport();
@@ -402,7 +386,7 @@ public class ClientController extends ControllerBase {
 				System.exit(0);
 			}
 			break;
-		
+
 		}
 	}
 }

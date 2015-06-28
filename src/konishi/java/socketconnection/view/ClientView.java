@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * クライアント画面のFXMLファイルが読み込まれるクラスです。
+ * @author konishi
+ *
+ */
 public class ClientView extends Application {
 	
 	public void initialize() {

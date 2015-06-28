@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * サーバー画面のFXMLファイルが読み込まれるクラスです。
+ * @author konishi
+ *
+ */
 public class ServerView extends Application {
 	private Stage stage = null;
 	private AnchorPane root = null;

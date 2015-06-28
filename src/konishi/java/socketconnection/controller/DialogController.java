@@ -12,20 +12,23 @@ import javafx.scene.input.MouseEvent;
 import konishi.java.socketconnection.base.ControllerBase;
 import konishi.java.socketconnection.model.ReceiveModel;
 
+/**
+ * クライアント側の初期設定を行うダイアログです。<br>
+ * このダイアログでOKボタンが押され、通信が成功したとき、クライアントメイン画面に遷移します。<br>
+ * @author konishi
+ * @see ClientController
+ *
+ */
 public class DialogController extends ControllerBase {
 
-	@FXML RadioButton client1_button;
-	@FXML RadioButton client2_button;
-	@FXML RadioButton client3_button;
-	@FXML RadioButton client4_button;
-	
+	@FXML RadioButton client1_button, client2_button, client3_button, client4_button;
 	@FXML TextField address_port_text;
-	
 	@FXML Label error_text;
+	@FXML Button ok_button, cancel_button;
 	
-	@FXML Button ok_button;
-	@FXML Button cancel_button;
-	
+	/**
+	 * ダイアログ内での初期処理を行います。
+	 */
 	public void initialize() {
 		ReceiveModel.myMachineNumber = "1";
 		if (ReceiveModel.errorDialog)
@@ -55,7 +58,7 @@ public class DialogController extends ControllerBase {
 			break;
 			
 		case "ok_button":
-			ReceiveModel.addressPortDialog = address_port_text.getText();
+			ReceiveModel.addressPortDialog = (address_port_text.getText().isEmpty()) ? address_port_text.getPromptText() : address_port_text.getText();
 			((Node)event.getSource()).getScene().getWindow().hide();
 			break;
 		case "cancel_button":

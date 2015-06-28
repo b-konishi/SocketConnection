@@ -54,7 +54,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="address_port_text" alignment="CENTER" layoutX="220.0" layoutY="324.0" prefHeight="25.0" prefWidth="465.0" promptText="IPAddress:port" text="localhost:8000" />
+            <TextField fx:id="address_port_text" alignment="CENTER" layoutX="220.0" layoutY="324.0" prefHeight="25.0" prefWidth="465.0" promptText="localhost:8000" />
          </children>
       </VBox>
       <Label fx:id="error_text" alignment="CENTER" contentDisplay="CENTER" layoutX="68.0" layoutY="305.0" prefWidth="465.0" textFill="RED">
