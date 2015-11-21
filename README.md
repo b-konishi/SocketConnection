@@ -15,8 +15,8 @@ Issues of current situations
 -----------------------------------
  - [x] Transmit between single-client and single-server on CUI and GUI.
  - [x] Transmit between multi-client and single-server on CUI.
- - [ ] Transmit between multi-client and single-server on GUI.
- - [ ] Each detail function.
+ - [x] Transmit between multi-client and single-server on GUI.
+ - [x] Each detail function.
 
 
 What's the problems
